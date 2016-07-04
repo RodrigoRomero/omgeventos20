@@ -1,2 +1,7 @@
 uploads/*
 !uploads/*/
+uploads/barcodes/*
+uploads/galeria/*
+uploads/oradores/*
+uploads/slider/*
+uploads/sponsors/*
