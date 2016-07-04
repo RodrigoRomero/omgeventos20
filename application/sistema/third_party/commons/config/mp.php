@@ -1,0 +1,1 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');$config['mp']['client_id']          = '1024501440061340';$config['mp']['client_secret']      = 'JQgaOWnvBq8ghbmO2DNr4eLW0gKvGCI5';
