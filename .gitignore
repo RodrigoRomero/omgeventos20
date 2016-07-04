@@ -1,2 +1,2 @@
-uploads/**/*.jpg
-uploads/**/*.png
+uploads/*
+!uploads/*/
