@@ -16,6 +16,8 @@ abstract class RR_Controller extends CI_Controller {
     var $params;
     var $Clang;
     var $skin_id;
+    protected $rr_account;
+
     protected $module_title;
     protected $layout     = 'one_page';
     
@@ -31,6 +33,7 @@ abstract class RR_Controller extends CI_Controller {
     
     public function __construct() {
     	parent::__construct();    
+        $this->rr_account = md5(RR_ACCOUNT.'omg');        
         $this->load->model('main_mod','Main');
         
         

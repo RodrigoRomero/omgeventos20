@@ -15,15 +15,35 @@ class RR_Model extends CI_Model
     var $u;
     var $params;
     var $evento_id;
-    
+    protected $rr_account;
+
     public function __construct() {
         parent::__construct();
-        $this->Clang  = config_item("language");
-        $this->today  = date('Y-m-d H:i:s');
-        $this->i      = array("fa"  => date('Y-m-d H:i:s'), "status"=>1);  
-        $this->u      = array("fum"  => date('Y-m-d H:i:s'));
-        $this->params = $this->uri->uri_to_assoc(1);
-        $this->evento_id = $this->_getEventoActivo(); 
+        $this->Clang      = config_item("language");
+        $this->today      = date('Y-m-d H:i:s');
+        $this->i          = array("fa"  => date('Y-m-d H:i:s'), "status"=>1);  
+        $this->u          = array("fum"  => date('Y-m-d H:i:s'));
+        $this->rr_account = $this->setAccount(md5(RR_ACCOUNT.'omg'));
+        $this->params     = $this->uri->uri_to_assoc(1);
+        $this->evento_id  = $this->_getEventoActivo(); 
+
+
+
+    }
+
+    private function setAccount($key){
+        try{
+            $result = $this->db->select('id')->get_where('accounts',array('key'=>$key, 'status'=>1))->row();
+
+            if(count($result)!=1) {
+                throw new Exception('Error Sistema', 200); 
+            }
+
+            return $result;
+
+        } catch (Exception $ex) {
+            show_404();
+        }
     }
     
     public function view($view, $vars = array(), $return = true){
@@ -59,7 +79,9 @@ class RR_Model extends CI_Model
     }
     
     private function _getEventoActivo(){        
-        $result = $this->db->select('id')->get_where('eventos',array('status'=>1))->row();
+        $result = $this->db->select('id')->get_where('eventos',array('status'=>1, 'account_id'=>$this->rr_account->id))->row();
+
+
         return $result->id;
     }
     
