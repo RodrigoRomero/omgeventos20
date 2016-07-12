@@ -1,3 +1,4 @@
+rr_db.php
 uploads/*
 !uploads/*/
 uploads/barcodes/*
