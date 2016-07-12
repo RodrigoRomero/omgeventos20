@@ -14,13 +14,14 @@
                 </a>
 			</div>
             <div class="col-md-2 text-center">
-			     <!-- <h3>#OMG</h3> -->
+			     <!--<h3>#SMSummit</h3>-->
 			</div>
 			<div class="col-md-3 text-center">
-				<a href="https://www.facebook.com/adblickagro" class="social fa fa-facebook"></a>
-				<a href="https://www.youtube.com/adblicktv" class="social fa fa-youtube-square" ></a>
-                <!-- <a href="https://twitter.com/diego_lema" class="social fa fa-twitter" ></a>-->
-				<!-- <a href="#" class="social fa fa-google-plus"></a> -->
+				<!--<a href="https://www.facebook.com/amdiaweb" class="social fa fa-facebook"></a>-->
+				<!--<a href="https://www.youtube.com/amdiaweb" class="social fa fa-youtube-square" ></a>-->
+                <a href="https://twitter.com/movilarg" class="social fa fa-twitter" ></a>
+                <a href="https://www.linkedin.com/company/asociaci%C3%B3n-m%C3%B3vil-argentina" class="social fa fa-linkedin" ></a>
+				<!--<a href="#" class="social fa fa-google-plus"></a>-->
 			</div>
             <div class="col-md-5 separator newsletter-subscribe">
             <?php

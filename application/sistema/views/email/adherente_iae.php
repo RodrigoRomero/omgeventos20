@@ -3,7 +3,7 @@ $fecha_inicio = explode(" ",$evento->fecha_inicio);
 $fecha_cierre = explode(" ",$evento->fecha_baja);
 $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
 $table = "width:600px;
@@ -20,25 +20,25 @@ $table = "width:600px;
          font-family: arial, verdana, sans-serif;
 
 
-         font-size: 14px;
+         font-size: 14px; 
 
 
-         background: #F6F6F6;
+         background: #F6F6F6; 
 
 
-         text-align: center;
+         text-align: center; 
 
 
          display:inline-block";
 
 
+                 
 
 
+$p = "font-size:12px; 
 
-$p = "font-size:12px;
 
-
-      color:#292C28;
+      color:#292C28; 
 
 
       margin: 10px;
@@ -47,7 +47,7 @@ $p = "font-size:12px;
       text-align: left;";
 
 
-
+      
 
 
 $btn = "background: none repeat scroll 0 0 #62AF66;
@@ -80,10 +80,10 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         text-transform: uppercase;";
 
 
+        
 
 
-
-
+        
 
 
 ?>
@@ -101,11 +101,11 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
 
 
-            Como Antiguo Alumno Adherente del IAE, su inscripción al evento <?php echo $evento->nombre ?> ha sido confirmada.<br />
+            Su inscripción al evento <?php echo $evento->nombre ?> ha sido confirmada.<br />
 
 
             <strong>Lo esperamos el <?php echo $fecha_inicio_array[2] ?> de <?php echo strtoupper(getMes($fecha_inicio_array[1])) ?> <?php echo $hora_inicio ?>Hs. <?php echo $evento->lugar ?></strong><br />
-			Desde ADBlick Agro, El IAE Business School y la Facultad de Ciencias Empresariales - Universidad Austral queremos agradecer su interés.
+
 
             </p>
 
@@ -113,10 +113,10 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
                 <a href="<?php echo lang_url('cart/checkout/'.$user_info->salt) ?>" style="<?php echo $btn ?>">REALIZAR PAGO</a>
             <?php } ?>
 
+            
 
 
-
-
+            
 
 
         </td>

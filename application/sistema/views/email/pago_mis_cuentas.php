@@ -3,7 +3,7 @@ $fecha_inicio = explode(" ",$evento->fecha_inicio);
 $fecha_cierre = explode(" ",$evento->fecha_baja);
 $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
 $table = "width:600px;
@@ -11,16 +11,16 @@ $table = "width:600px;
          border-collapse: collapse;
          margin: 0 auto;
          font-family: arial, verdana, sans-serif;
-         font-size: 14px;
-         background: #F6F6F6;
-         text-align: center;
+         font-size: 14px; 
+         background: #F6F6F6; 
+         text-align: center; 
          display:inline-block";
-
-$p = "font-size:12px;
-      color:#292C28;
+                 
+$p = "font-size:12px; 
+      color:#292C28; 
       margin: 10px;
       text-align: left;";
-
+      
 $btn = "background: none repeat scroll 0 0 #62AF66;
         border: 2px solid #5f6464;
         color: #FFFFFF;
@@ -31,26 +31,20 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         padding: 10px;
         text-decoration: none;
         text-transform: uppercase;";
-
-
+        
+        
 ?>
 <table width="600" cellpadding="0" cellspacing="0" style="<?php echo $table ?>">
     <tr>
         <td colspan="3">
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
             Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>. <br />
-Confirmando su  registro mediante el aporte del Bono Contribución a BisBlick – Compromiso Social, podemos asegurar su inscripción.<br />
+Confirmando su  registro mediante el pago, podemos asegurar su inscripción.<br /> 
 Para hacer efectivo el pago a través de PagoMisCuentas, por favor siga estos pasos:
 <br /><br />
-    		Desde la PC o Cajeros automáticos, ingrese a  Pagomiscuentas.com<br/>
-            De la solapa SERVICIOS, seleccione la opción DONACIONES<br/>
-            De la solapa EMPRESAS, seleccione BISBLICK<br/>
-            Indicá DNI y el monto a donar y aceptá. ¡LISTO!<br/>
-
-            Agradecemos enviar el comprobante de transferencia a María Maestre <a href="mailto:mester@bisblick.org">mester@bisblick.org</a> para mayor certeza<br />
-            Muchas gracias.<br/>
-             Desde ADBlick Agro, El IAE Business School y el CEAg, de la Universidad Austral queremos agradecer su interés.
-</p>
+    
+            Agradecemos enviar el comprobante de transferencia a Jessica Meccia <a href="mailto:soporte@amdia.org.ar">soporte@amdia.org.ar</a> para mayor certeza<br />
+            Muchas gracias.</p>
         </td>
     </tr>
     <tr>

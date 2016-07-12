@@ -32,7 +32,7 @@ $fecha_cierre_array = explode("-", $fecha_cierre[0]);
                         <h2 class="bigtext strtoupper nomargin"><?php echo $evento->nombre ?></h2>
                         <p><?php echo $evento->bajada ?></p>
 
-                        <a class="btn btn-primary white nofill popup-video" href="https://www.youtube.com/watch?v=Oit4HoWH4b8"><i class="fa fa-play"></i> Ver video </a>
+                        <!--<a class="btn btn-primary white nofill popup-video" href="https://www.youtube.com/watch?v=jNgS9wMJZjY"><i class="fa fa-play"></i> Ver video </a>-->
                         <a class="btn btn-primary red scrollTo" href="#registrese">Registrese Ahora</a>
 
                         <div class="event">

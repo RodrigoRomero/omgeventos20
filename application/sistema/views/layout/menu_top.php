@@ -34,12 +34,14 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#agenda" class="scrollTo">Agenda</a></li>
-                    <li><a href="#bisblick" class="scrollTo">Almuerzo</a></li>
+					<li><a href="#oradores" class="scrollTo">Oradores</a></li>
+					<li><a href="#sponsor" class="scrollTo">Sponsors</a></li>
+                    <li><a href="#bisblick" class="scrollTo">amdia</a></li>
 					<li><a href="#registrese" class="scrollTo">Registrese</a></li>
 					<li><a href="#lugar" class="scrollTo">Lugar</a></li>
-					<li><a href="#oradores" class="scrollTo">Oradores</a></li>
-					<li><a href="#galeria" class="scrollTo">Galería</a></li>
-					<li><a href="#sponsor" class="scrollTo">Sponsors</a></li>
+
+					<!--<li><a href="#galeria" class="scrollTo">Galería</a></li>-->
+
 				</ul>
 			</div><!-- /.navbar-collapse -->
 
@@ -74,7 +76,7 @@
 
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="<?php echo lang_url() ?>#agenda" >Agenda</a></li>
-                            <li><a href="<?php echo lang_url() ?>#bisblick">Cena</a></li>
+                           <!-- <li><a href="<?php echo lang_url() ?>#bisblick">Cena</a></li> -->
         					<li><a href="<?php echo lang_url() ?>#registrese">Registrese</a></li>
         					<li><a href="<?php echo lang_url() ?>#lugar" >Lugar</a></li>
         					<li><a href="<?php echo lang_url() ?>#oradores" >Oradores</a></li>

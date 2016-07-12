@@ -8,7 +8,7 @@ $hora_inicio  = substr($fecha_inicio[1],0,-3);
 
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
 
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
@@ -24,25 +24,25 @@ $table = "width:600px;
 
                  font-family: arial, verdana, sans-serif;
 
-                 font-size: 14px;
+                 font-size: 14px; 
 
-                 background: #F6F6F6;
+                 background: #F6F6F6; 
 
-                 text-align: center;
+                 text-align: center; 
 
                  display:inline-block";
 
+                 
 
+$p = "font-size:12px; 
 
-$p = "font-size:12px;
-
-      color:#292C28;
+      color:#292C28; 
 
       margin: 10px;
 
       text-align: left;";
 
-
+      
 
 $btn = "background: none repeat scroll 0 0 #62AF66;
 
@@ -64,7 +64,7 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 
         text-transform: uppercase;";
 
-
+               
 
 ?>
 
@@ -76,17 +76,17 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
 
-            Como Antiguo alumno, su inscripción al evento <?php echo $evento->nombre ?> ha sido confirmada, pero aún no pudo terminarla.<br/>
-            Confirmando su  registro mediante el aporte del Bono Contribución a <b>BisBlick – Compromiso Social</b>, podemos confirmar la inscripción y asegurarle la entrada al auditorio principal.
-			</p>
+            Hemos registrado que intentó realizar la inscripción al evento <?php echo $evento->nombre ?> pero aún no pudo terminarla. Si desea hacerlo presione en el siguiente botón:</p>
 
             <a href="<?php echo lang_url('cart/checkout/'.$user_info->salt) ?>" style="<?php echo $btn ?>">Realizar Pago</a><br/>
 
-            <p style="<?php echo $p ?>">Desde ADBlick Agro, El IAE Business School y el CEAg, de la Universidad Austral queremos agradecer su interés.</p>
+            <p style="<?php echo $p ?>">Muchas gracias</p>
 
         </td>
 
     </tr>
+
+    
 
     <tr>
 
@@ -97,6 +97,9 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         </td>
 
     </tr>
+
+    
+
     <tr>
 
         <td style="padding: 10px 0; border-top: 2px solid #ebebeb; border-bottom: 2px solid #ebebeb" colspan="3">

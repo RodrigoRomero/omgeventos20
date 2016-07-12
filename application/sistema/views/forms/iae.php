@@ -8,9 +8,8 @@ echo form_hidden('ticket_name','Socio AMDIA');
 
     
 echo '<div class="col-md-12 text-center">';
-$data = array('type'=>'submit', 'value'=>'SI SOS MIEMBRO ANTIGUO IAE HACE CLICK AQUI', 'class'=>'btn btn-primary green fsize20', 'id'=>'contact_submit', 'onclick'=>"resetValues(); validateForm('ticketsFormIAE')");
-echo form_input($data).br(1);
-echo '<small>Sólo las personas que abonan su membresía como Miembro Antiguo IAE, podrán ser acreedores de ese beneficio.</small>';
+$data = array('type'=>'submit', 'value'=>'SOCIO AMDIA', 'class'=>'btn btn-primary green fsize20', 'id'=>'contact_submit', 'onclick'=>"resetValues(); validateForm('ticketsFormIAE')");
+echo form_input($data);
 echo '</div>';                                                                
 echo form_close();
 ?>

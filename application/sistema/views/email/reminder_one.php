@@ -3,7 +3,7 @@ $fecha_inicio = explode(" ",$evento->fecha_inicio);
 $fecha_cierre = explode(" ",$evento->fecha_baja);
 $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
 /*
@@ -12,9 +12,9 @@ $table = "width:600px;
          border-collapse: collapse;
          margin: 0 auto;
          font-family: arial, verdana, sans-serif;
-         font-size: 14px;
-         background: #F6F6F6;
-         text-align: center;
+         font-size: 14px; 
+         background: #F6F6F6; 
+         text-align: center; 
          display:block";
 */
 $table = "width:650px;
@@ -22,8 +22,8 @@ $table = "width:650px;
          border-collapse: collapse;
          margin: 0 auto;
          font-family: arial, verdana, sans-serif;
-         font-size: 14px;
-         background: #f6f6f6;
+         font-size: 14px; 
+         background: #f6f6f6; 
          text-align: center;";
 
 $inner_table = "text-align: left;
@@ -31,12 +31,12 @@ $inner_table = "text-align: left;
                 border: 1px solid #000;
                 border-collapse: collapse;
                 margin: 20px auto;";
-
-$p = "font-size:12px;
-      color:#292C28;
+                                          
+$p = "font-size:12px; 
+      color:#292C28; 
       margin: 10px;
       text-align: center;";
-
+      
 $btn = "background: none repeat scroll 0 0 #62AF66;
         border: 2px solid #5f6464;
         color: #FFFFFF;
@@ -47,40 +47,33 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         padding: 10px;
         text-decoration: none;
         text-transform: uppercase;";
-
+        
 $header_content_h1 = "color: #444242;
 	                  margin:0;
                       background: #f6f6f6;
-	                  padding: 0 20px;
+	                  padding: 0 20px;	
 	                  display:block;
 	                  font-family:Arial;
 	                  font-size: 22px;
                       text-transform: uppercase;
 	                  font-weight:bold;
 	                  text-align: center;
-	                  line-height: 150%;";
+	                  line-height: 150%;";        
 ?>
 <table width="650" cellpadding="0" cellspacing="0" style="<?php echo $table ?>">
-
+    
     <tr>
         <td  style="padding: 10px" colspan="3">
-            <p style="color: #444242; font-size: 15px; text-align: center">Hola <?php echo $user->nombre.' '. $user->apellido ?>: <br/> Le escribimos para recordarle que está aprobada su inscripción a <b><?php echo $evento->nombre ?></b> que se realiza este Jueves 23 de junio en el Campus de Pilar del IAE – Business School. Dada la gran cantidad de inscriptos, la acreditación comienza 7.45hs. La Señora Gobernadora comenzará puntualmente su exposición a las 9.00hs<br/><br/>
-            ES IMPORTANTE que tenga este mail con usted en su celular o que lo traiga impreso, y que si usted:
-
-             </p>
-             <p style="color: #444242; font-size: 15px; text-align: center">
-	             1. Contribuyó con un monto de <b>$ 700 a $ 2.500, </b> recuerde que la reserva de su butaca expira a las 8.45hs, por lo que le sugerimos  llegar antes de las 8.15 hs para reservar su lugar en el auditorio. Por esto, si vive lejos de Pilar, Campus Suites, le ofrece un 25% de descuento en su tarifa, si quiere alojarse por la noche en sus instalaciones aledañas al Auditorio.<br/><br/>
-
-	             2. Contribuyó con <b>$ 150 a $ 600, o es Antiguo Alumno MIEMBRO,</b> podrá ingresar al Salón Auditorio ocupando los lugares que quedan libres de las categorías anteriores, hasta  agotar los mismos. Una vez cubierta dicha capacidad se retransmitirá la conferencia en el aula tecnológica.  <br/><br/>
-
-	              A las 8.55hs se cerrarán las puertas y se derivará a los asistentes al Aula de tecnológica. Podremos conversar y compartir reflexiones durante el intervalo y el almuerzo de networking (este último con inscripción previa – cupos limitados).
+            <p style="color: #444242; font-size: 15px; text-align: center">Hola <?php echo $user->nombre.' '. $user->apellido ?>: <br/> Le escribimos para recordarle que está aprobada su inscripción a <b><?php echo $evento->nombre ?></b> que se realiza este ... Dada la gran cantidad de inscriptos, la acreditación comienza ...<br/><br/>
+            
+             
              </p>
         </td>
     </tr>
-
+    
     <tr>
         <td  colspan="3">
-            <h1 style="<?php echo $header_content_h1 ?>"><?php echo $evento->nombre ?></h1>
+            <h1 style="<?php echo $header_content_h1 ?>"><?php echo $evento->nombre ?></h1> 
            </td>
     </tr>
     <tr style="border-bottom: 2px solid #ebebeb;">
@@ -104,17 +97,17 @@ $header_content_h1 = "color: #444242;
             <p style="margin: 0;"><?php echo $evento->direccion ?></p>
         </td>
     </tr>
-
+    
     <tr>
         <td style="padding: 10px 0; border-top: 2px solid #ebebeb; border-bottom: 2px solid #ebebeb; text-align:center;" colspan="3">
             <p style="<?php echo $p ?>">No olvide traer el código de barras impreso o digital</p>
         </td>
     </tr>
-
+   
     <tr>
         <td colspan="3">
             <?php echo up_asset('barcodes/'.$user->barcode.'.png', array('style'=>'display: block; margin: 40px auto;')) ?>
         </td>
     </tr>
-
+   
 </table>

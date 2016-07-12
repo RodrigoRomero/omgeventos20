@@ -13,10 +13,14 @@ $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
 
 
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 
 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
+
+
+
+
 
 $table = "width:600px;
 
@@ -33,27 +37,35 @@ $table = "width:600px;
          font-family: arial, verdana, sans-serif;
 
 
-         font-size: 14px;
+         font-size: 14px; 
 
 
-         background: #F6F6F6;
+         background: #F6F6F6; 
 
 
-         text-align: center;
+         text-align: center; 
 
 
          display:block";
 
-$p = "font-size:12px;
+
+                 
 
 
-      color:#292C28;
+$p = "font-size:12px; 
+
+
+      color:#292C28; 
 
 
       margin: 10px;
 
 
       text-align: left;";
+
+
+      
+
 
 $btn = "background: none repeat scroll 0 0 #62AF66;
 
@@ -84,33 +96,83 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 
         text-transform: uppercase;";
 
+
+        
+
+
+        
+
+
 ?>
 
+
 <table width="600" cellpadding="0" cellspacing="0" style="<?php echo $table ?>">
+
+
     <tr>
+
+
         <td  colspan="3">
+
+
             <p style="<?php echo $p ?>">Sr. <?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
-            Su inscripción al evento <?php echo $evento->nombre ?> fue confirmada.<br />
+
+
+            Su inscripción al evento <?php echo $evento->nombre ?> fue confirmada.<br /> 
+
+
             <strong>Lo esperamos el <?php echo $fecha_inicio_array[2] ?> de <?php echo strtoupper(getMes($fecha_inicio_array[1])) ?> <?php echo $hora_inicio ?>Hs. <?php echo $evento->lugar ?></strong><br />
+
+
             <br />
-            No olvide llevar el código de barras, impreso o digital. <br/>
-             Los lugares dentro del auditorio principal son limitados por lo que rogamos ser puntuales.<br/>
-             Desde ADBlick Agro, El IAE Business School y la Facultad de Ciencias Empresariales - Universidad Austral queremos agradecer su interés.
-<p>
+
+
+            No olvide llevar el código de barras, impreso o digital<p> 
+
+
            </td>
+
+
     </tr>
+
+
     <tr>
+
+
         <td colspan="3">
-           <?php echo up_asset('barcodes/'.$user_info->barcode.'.png', array('style'=>'display: block; margin: 0 auto;')) ?>
+
+
+            <?php echo up_asset('barcodes/'.$user_info->barcode.'.png', array('style'=>'display: block; margin: 0 auto;')) ?>
+
+
         </td>
+
+
     </tr>
-   <tr>
-     <td colspan="3">
-        <p style="<?php echo $p ?>"></p>
-     </td>
-    </tr>
+
+
+
+
+
     <tr>
-       <td style="padding: 10px 0; border-top: 2px solid #ebebeb; border-bottom: 2px solid #ebebeb" colspan="3">
+
+
+        <td colspan="3">
+
+
+        <p style="<?php echo $p ?>"></p>
+
+
+        </td>
+
+
+    </tr>
+
+
+    <tr>
+
+
+        <td style="padding: 10px 0; border-top: 2px solid #ebebeb; border-bottom: 2px solid #ebebeb" colspan="3">
 
 
             <p style="text-transform: uppercase; text-align: center; color: #ce5c5f; font-size: 34px; font-weight: bold; margin: 0"><?php echo $evento->nombre ?></p>

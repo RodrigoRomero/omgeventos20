@@ -3,7 +3,7 @@ $fecha_inicio = explode(" ",$evento->fecha_inicio);
 $fecha_cierre = explode(" ",$evento->fecha_baja);
 $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
 $table = "width:600px;
@@ -11,16 +11,16 @@ $table = "width:600px;
          border-collapse: collapse;
          margin: 0 auto;
          font-family: arial, verdana, sans-serif;
-         font-size: 14px;
-         background: #F6F6F6;
-         text-align: center;
+         font-size: 14px; 
+         background: #F6F6F6; 
+         text-align: center; 
          display:inline-block";
-
-$p = "font-size:12px;
-      color:#292C28;
+                 
+$p = "font-size:12px; 
+      color:#292C28; 
       margin: 10px;
       text-align: left;";
-
+      
 $btn = "background: none repeat scroll 0 0 #62AF66;
         border: 2px solid #5f6464;
         color: #FFFFFF;
@@ -31,26 +31,21 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         padding: 10px;
         text-decoration: none;
         text-transform: uppercase;";
-
-
+        
+        
 ?>
 <table width="600" cellpadding="0" cellspacing="0" style="<?php echo $table ?>">
     <tr>
         <td colspan="3">
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
-            Como Antiguo Alumno Adherente del IAE su inscripción al evento <?php echo $evento->nombre ?> ha sido confirmada.
-            Usted ha solicitado realizar una transferencia bancaria, para abonar el almuerzo de relacionamiento, estos son los datos de nuestra cuenta:<br /><br />
-
-            Banco: GALICIA<br />
-            Cuenta Corriente Nro. 6594-0 335-6<br/>
-            Titular: Fundación Bisblick- Compromiso Social<br />
-            CBU: 0070335020000006594066<br />
-            CUIT: 30-71494767-9<br /><br />
-            Agradecemos enviar el comprobante de transferencia a María Maestre <a href="mailto:mester@bisblick.org">mester@bisblick.org</a> para mayor certeza<br />
-            <br/>
-             Desde ADBlick Agro, El IAE Business School y el CEAg, de la Universidad Austral queremos agradecer su interés.
-
-            </p>
+            Usted ha solicitado realizar una transferencia bancaria, estos son los datos de nuestra cuenta:<br /><br />
+            Cta.Cte. Número: 0489393034<br />
+            Banco: Citibank<br />
+            Titular: Asociación de Marketing Directo e Interactivo de Argentina<br />
+            CBU: 0167777-10000489393034-1<br />
+            CUIT: 33-63225747-9<br /><br />
+            Agradecemos enviar el comprobante de transferencia a Jessica Meccia: <a href="mailto:soporte@amdia.org.ar">soporte@amdia.org.ar</a>para mayor certeza<br />
+            Muchas gracias.</p>
         </td>
     </tr>
     <tr>

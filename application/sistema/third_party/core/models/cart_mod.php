@@ -32,7 +32,6 @@ class cart_mod extends RR_Model {
 
 
     public function add($sku='',$name='',$price='',$modal=true){
-        
         $this->cart->destroy();      
         $sku   = ($sku) ? $sku : filter_input(INPUT_POST,'ticket_sku');
         $name  = ($name) ? $name : filter_input(INPUT_POST,'ticket_name');
@@ -40,7 +39,7 @@ class cart_mod extends RR_Model {
         $ticket = $this->validateSKU($sku);
         
         if($ticket->precio_regular == $price || $ticket->precio_oferta == $price) {
-            $options = (!empty($ticket->descripcion)) ? array('extras'=>json_decode($ticket->descripcion), 'ticket_id'=>$ticket->id) : array('ticket_id'=>$ticket->id); 
+            $options = (!empty($ticket->descripcion)) ? array('extras'=>$ticket->descripcion, 'ticket_id'=>$ticket->id) : array('ticket_id'=>$ticket->id); 
             $data = array(
                    'id'      => $sku,
                    'qty'     => 1,
@@ -48,10 +47,8 @@ class cart_mod extends RR_Model {
                    'name'    => $name, 
                    'options' => $options
                 );
-                
-              
             $cart_product_id = $this->cart->insert($data);       
-   
+
             if($cart_product_id){
                 if($modal){
                     $success = true;
@@ -150,12 +147,11 @@ class cart_mod extends RR_Model {
             $medio_pago = filter_input(INPUT_POST,'medio_pago');                      
 
             if($medio_pago){
-                $this->session->set_userdata('cart_medio_pago',$medio_pago);  
-                $medio_pago_title = ($medio_pago == 'mercado_pago') ? 'Tarjeta de Crédito' : $medio_pago;              
+                $this->session->set_userdata('cart_medio_pago',$medio_pago);                
                 $success = true;
                 $responseType = 'function';
                 $function     = 'appendFormMessagesModal';
-                $messages     = $this->view('alerts/seleccion_gateway', array('medio_pago'=>ucwords(str_replace("_"," ",$medio_pago_title)), 'title'=>$this->evento_name, 'class_type'=>'info'));
+                $messages     = $this->view('alerts/seleccion_gateway', array('medio_pago'=>ucwords(str_replace("_"," ",$medio_pago)), 'title'=>$this->evento_name, 'class_type'=>'info'));
                 $data = array('success' =>$success,'responseType'=>$responseType, 'html'=>$messages, 'value'=>$function, 'modal_redirect'=>lang_url('account/create'));
             }
         }       
@@ -179,7 +175,7 @@ class cart_mod extends RR_Model {
                     break;
                 
                 case 'pending':
-                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisión'));
+                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisi�n'));
                     break;          
 
                 case 'free':
@@ -218,7 +214,7 @@ class cart_mod extends RR_Model {
                     break;
                
                 case 'pending':
-                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisión'));
+                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisi�n'));
                     break;
                 
                 default:

@@ -11,7 +11,7 @@
    
   window.fbAsyncInit = function() {    
     FB.init({
-      appId      : '1297715346922201',
+      appId      : '184093205310557',
       xfbml      : true,
       cookie     : true,
       version    : 'v2.5',
@@ -46,7 +46,8 @@
     <div class="alert alert-success">
       <button type="button" class="close" <a href="#" class="close" data-dismiss="alert">&times;</a>
     </button>
-      Este sitio esta optimizado para ser visualizado en Chrome. No se garantiza el correcto funcionamiento en Internet Explorer y Safari.
+            Este sitio esta optimizado para ser visualizado en Chrome. No se garantiza el correcto funcionamiento en Internet Explorer o Safari.
+
     </div>
     
     

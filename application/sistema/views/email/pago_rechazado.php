@@ -3,7 +3,7 @@ $fecha_inicio = explode(" ",$evento->fecha_inicio);
 $fecha_cierre = explode(" ",$evento->fecha_baja);
 $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
 $table = "width:600px;
@@ -11,16 +11,16 @@ $table = "width:600px;
          border-collapse: collapse;
          margin: 0 auto;
          font-family: arial, verdana, sans-serif;
-         font-size: 14px;
-         background: #F6F6F6;
-         text-align: center;
+         font-size: 14px; 
+         background: #F6F6F6; 
+         text-align: center; 
          display:inline-block";
-
-$p = "font-size:12px;
-      color:#292C28;
+                 
+$p = "font-size:12px; 
+      color:#292C28; 
       margin: 10px;
       text-align: left;";
-
+      
 $btn = "background: none repeat scroll 0 0 #62AF66;
         border: 2px solid #5f6464;
         color: #FFFFFF;
@@ -31,17 +31,17 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         padding: 10px;
         text-decoration: none;
         text-transform: uppercase;";
-
-
+        
+        
 ?>
 <table width="600" cellpadding="0" cellspacing="0" style="<?php echo $table ?>">
     <tr>
         <td colspan="3">
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
-            Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>.<br />
+            Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>.<br /> 
             Lamentablemente Mercado Pago ha rechazado su tarjeta por motivos que desconocemos. Le solicitamos por favor comunicarse con:<br />
-            María Maestre <a href="mailto:mester@bisblick.org">mester@bisblick.org</a>, si desea puede intentar con una nueva tarjeta o bien realizar una transferencia bancaria, ingresando aquí</p>
-            <a href="<?php echo lang_url('cart/checkout/'.$user_info->salt) ?>" style="<?php echo $btn ?>">Realizar Pago</a>
+            Jessica Meccia<a href="mailto:soporte@amdia.org.ar">soporte@amdia.org.ar</a>, si desea puede intentar con una nueva tarjeta o bien realizar una transferencia bancaria, ingresando aquí</p>
+            <a href="<?php echo lang_url('cart/checkout/'.$user_info->salt) ?>" style="<?php echo $btn ?>">Realizar Pago</a> 
             <p>Le agradecemos mucho su colaboración y le pedimos disculpas por las molestias causadas.<br />
             Saludos,</p>
         </td>

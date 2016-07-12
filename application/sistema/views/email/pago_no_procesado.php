@@ -3,7 +3,7 @@ $fecha_inicio = explode(" ",$evento->fecha_inicio);
 $fecha_cierre = explode(" ",$evento->fecha_baja);
 $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
 $table = "width:600px;
@@ -11,16 +11,16 @@ $table = "width:600px;
                  border-collapse: collapse;
                  margin: 0 auto;
                  font-family: arial, verdana, sans-serif;
-                 font-size: 14px;
-                 background: #F6F6F6;
-                 text-align: center;
+                 font-size: 14px; 
+                 background: #F6F6F6; 
+                 text-align: center; 
                  display:inline-block";
-
-$p = "font-size:12px;
-      color:#292C28;
+                 
+$p = "font-size:12px; 
+      color:#292C28; 
       margin: 10px;
       text-align: left;";
-
+      
 $btn = "background: none repeat scroll 0 0 #62AF66;
         border: 2px solid #5f6464;
         color: #FFFFFF;
@@ -31,25 +31,25 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         padding: 10px;
         text-decoration: none;
         text-transform: uppercase;";
-
+               
 ?>
 <table width="600" cellpadding="0" cellspacing="0" style="<?php echo $table ?>">
     <tr>
         <td colspan="3">
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br/>
-            Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?> pero aún no pudo terminarla.<br/>
-            Confirmando su  registro mediante el aporte del Bono Contribución a <b>BisBlick – Compromiso Social</b>, podemos confirmar la inscripción y asegurarle la entrada al auditorio principal.</p>
+            Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>.<br /> 
+            Confirmando su  registro mediante el pago, podemos confirmar la inscripción y asegurarle la entrada al auditorio principal.</p> 
             <a href="<?php echo lang_url('cart/checkout/'.$user_info->salt) ?>" style="<?php echo $btn ?>">Realizar Pago</a><br/>
-            <p style="<?php echo $p ?>">Desde ADBlick Agro, El IAE Business School y el CEAg, de la Universidad Austral queremos agradecer su interés.</p>
+            <p style="<?php echo $p ?>">Muchas gracias por su interés en participar del evento</p>
         </td>
     </tr>
-
+    
     <tr>
         <td colspan="3">
             <?php echo up_asset('barcodes/'.$user_info->barcode.'.png', array('style'=>'display: block; margin: 0 auto;')) ?>
         </td>
     </tr>
-
+    
     <tr>
         <td style="padding: 10px 0; border-top: 2px solid #ebebeb; border-bottom: 2px solid #ebebeb" colspan="3">
             <p style="text-transform: uppercase; text-align: center; color: #ce5c5f; font-size: 34px; font-weight: bold; margin: 0"><?php echo $evento->nombre ?></p>

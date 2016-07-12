@@ -18,14 +18,12 @@ class Cart extends RR_Controller {
         echo json_encode($data);
     }
     public function checkout($security=null){
-      
         $this->layout = 'multi_page';
         $this->css_view = array('bootstrap.min2','site/main');
         if($security){
             $lateCheckout = $this->_latecheckout($security);
         }
         if($this->cart->total_items()==0 && is_null($security)){
-            
             redirect(lang_url());
         } else if($lateCheckout['payment_status'] == 'approved' || $lateCheckout['payment_status'] == 'free'  || $lateCheckout['payment_status'] == 'pending'){
             $this->_show($lateCheckout['module']);
@@ -38,7 +36,6 @@ class Cart extends RR_Controller {
         $this->layout = 'multi_page';
         $module = $this->view('pagos/checkout', $data);        
         $this->_show($module);
-
     }
     private function _latecheckout($security){
         return $this->Cart->restoreCart($security);

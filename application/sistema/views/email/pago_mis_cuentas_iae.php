@@ -8,7 +8,7 @@ $hora_inicio  = substr($fecha_inicio[1],0,-3);
 
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
 
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
@@ -24,25 +24,25 @@ $table = "width:600px;
 
          font-family: arial, verdana, sans-serif;
 
-         font-size: 14px;
+         font-size: 14px; 
 
-         background: #F6F6F6;
+         background: #F6F6F6; 
 
-         text-align: center;
+         text-align: center; 
 
          display:inline-block";
 
+                 
 
+$p = "font-size:12px; 
 
-$p = "font-size:12px;
-
-      color:#292C28;
+      color:#292C28; 
 
       margin: 10px;
 
       text-align: left;";
 
-
+      
 
 $btn = "background: none repeat scroll 0 0 #62AF66;
 
@@ -64,9 +64,9 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 
         text-transform: uppercase;";
 
+        
 
-
-
+        
 
 ?>
 
@@ -78,22 +78,19 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
 
-            Como Antiguo Alumno Adherente del IAE, su inscripción al evento <?php echo $evento->nombre ?> ha sido confirmada. <br/>
+            Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>. <br />
 
-          <br />
+Confirmando su  registro mediante el pago, podemos asegurar su inscripción.<br /> 
 
-		  Para hacer efectivo el pago del almuerzo de relacionamientoa través de PagoMisCuentas, por favor siga estos pasos:
+Para hacer efectivo el pago a través de PagoMisCuentas, por favor siga estos pasos:
 
 <br /><br />
-			Desde la PC o Cajeros automáticos, ingrese a  Pagomiscuentas.com<br/>
-            De la solapa SERVICIOS, seleccione la opción DONACIONES<br/>
-            De la solapa EMPRESAS, seleccione BISBLICK<br/>
-            Indicá DNI y el monto a donar y aceptá. ¡LISTO!<br/>
 
-            Agradecemos enviar el comprobante de transferencia a María Maestre <a href="mailto:mester@bisblick.org">mester@bisblick.org</a> para mayor certeza<br />
-            Muchas gracias.<br/>
-             Desde ADBlick Agro, El IAE Business School y el CEAg, de la Universidad Austral queremos agradecer su interés.
-            </p>
+    
+
+            Agradecemos enviar el comprobante de transferencia a Jessica Meccia <a href="mailto:soporte@amdia.org.ar">soporte@amdia.org.ar</a> para mayor certeza<br />
+
+            Muchas gracias.</p>
 
         </td>
 
@@ -102,7 +99,6 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
     <tr>
 
         <td colspan="3">
-	        <p>Es importante contar con el siguiente código de barras, ya sea en su celular o impreso, para acceder rápidamente. </p>
 
             <?php echo up_asset('barcodes/'.$user_info->barcode.'.png', array('style'=>'display: block; margin: 0 auto;')) ?>
 

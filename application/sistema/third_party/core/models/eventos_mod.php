@@ -447,14 +447,12 @@ class eventos_mod extends RR_Model {
         return $this->getTotalImages($id,$folder);
     }
     
-    public function _doReminder(){  
-        $this->load->model('email_mod','Email');
+    public function _doReminder(){        
         $evento      = $this->getEvento();
         $subject     = $evento->nombre.' '.$evento->bajada;
         $remider_one = strtotime($evento->reminder_one);
         $remider_two = strtotime($evento->reminder_two);
-        $hoy         = strtotime(date('Y-m-d'));  
-        
+        $hoy         = strtotime(date('Y-m-d'));       
         
         if($hoy == $remider_one){
             $result = $this->db->get_where('acreditados',array('status'=>1,'reminder'=>0),50)->result();            
@@ -486,8 +484,6 @@ class eventos_mod extends RR_Model {
                 
             }
             
-        } else {
-            echo 'No hay fecha de envio';
         }
      
       return false;

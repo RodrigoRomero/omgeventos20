@@ -13,7 +13,7 @@ $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
 
 
-$fecha_inicio_array = explode("-", $fecha_inicio[0]);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
 
 
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
@@ -37,25 +37,25 @@ $table = "width:600px;
          font-family: arial, verdana, sans-serif;
 
 
-         font-size: 14px;
+         font-size: 14px; 
 
 
-         background: #F6F6F6;
+         background: #F6F6F6; 
 
 
-         text-align: center;
+         text-align: center; 
 
 
          display:inline-block";
 
 
+         
 
 
+$p = "font-size:12px; 
 
-$p = "font-size:12px;
 
-
-      color:#292C28;
+      color:#292C28; 
 
 
       margin: 10px;
@@ -64,7 +64,7 @@ $p = "font-size:12px;
       text-align: left;";
 
 
-
+      
 
 
 $btn = "background: none repeat scroll 0 0 #62AF66;
@@ -97,7 +97,7 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         text-transform: uppercase;";
 
 
-
+        
 
 
 ?>
@@ -115,20 +115,19 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
             <p style="<?php echo $p ?>"><?php echo $user->nombre.' '.$user_info->apellido ?><br />
 
 
-            Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>.<br />
+            Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>.<br /> 
 
 
             El pago realizado se encuentra pendiente de revisión por Mercado Pago. Si en los próximos 5 días no recibe un nuevo mail confirmando que su pago fue acreditado correctamente, le solicitamos por favor ponerse en contacto con:<br />
 
 
-            María Maestre <a href="mailto:mester@bisblick.org">mester@bisblick.org</a> <br />
+            Jessica Meccia<a href="mailto:soporte@amdia.org.ar">soporte@amdia.org.ar</a> <br />
 
 
-            Le agradecemos mucho su colaboración con BisBlick y le pedimos disculpas por las molestias que podría causarle.<br />
+            Le agradecemos mucho su colaboración y le pedimos disculpas por las molestias que podría causarle.<br />
 
 
-            Desde ADBlick Agro, El IAE Business School y la Facultad de Ciencias Empresariales - Universidad Austral queremos agradecer su interés.
-</p>
+            Saludos,</p>
 
 
         </td>
@@ -227,7 +226,7 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         </td>
 
 
-    </tr>
+    </tr>    
 
 
 </table>
