@@ -109,15 +109,6 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 
             </p>
 
-            <?php if($user_info->lunch){ ?>
-                <a href="<?php echo lang_url('cart/checkout/'.$user_info->salt) ?>" style="<?php echo $btn ?>">REALIZAR PAGO</a>
-            <?php } ?>
-
-            
-
-
-            
-
 
         </td>
 

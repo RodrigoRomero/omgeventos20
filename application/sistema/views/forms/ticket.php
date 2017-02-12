@@ -5,7 +5,7 @@ $fecha_venta = explode("-",$tickets->fecha_baja);
 $fecha_venta = implode("-",array($fecha_venta[2], getMes($fecha_venta[1]), $fecha_venta[0]));
 $data_price = (!empty($tickets->precio_oferta) && ($hoy < $timelimit)) ? $tickets->precio_oferta : $tickets->precio_regular;
 $descripcion = json_decode($tickets->descripcion);
-?>
+?> 
 <div class="col-md-3 col-xs-6 price-table <?php echo (!$tickets->agotadas) ? 'pointer jPriceTkt' : ''; ?>" data-sku="<?php echo $tickets->sku ?>" data-ammount="<?php echo $data_price ?>"  data-name="<?php echo $tickets->nombre ?>" style="background-color: #<?php echo $tickets->background ?>" onclick="setTickets($(this))">
 <?php if($tickets->agotadas) { ?>
     <div class="overlay"></div>

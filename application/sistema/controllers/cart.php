@@ -6,6 +6,8 @@ class Cart extends RR_Controller {
         $this->load->model('eventos_mod','Evento');
     }
     public function index(){
+       /*$this->cart->destroy();
+       $this->session->sess_destroy();*/
         redirect(lang_url());
         die;
     }

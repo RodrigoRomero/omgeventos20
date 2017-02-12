@@ -21,6 +21,4 @@ $data = array('type'=>'submit', 'value'=>'seleccionar', 'class'=>'btn btn-primar
 echo form_input($data);
 echo '</div>';                                                                
 echo form_close();
-
-echo $this->view('forms/iae', array());
 ?>

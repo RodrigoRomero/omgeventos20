@@ -16,9 +16,11 @@
                     <?php } ?>
                 </div>
             </div>
+             <?php if(!empty($brief)) { ?>
             <div class="speaker_profile">
                 <p><?php echo $brief ?></p>                
             </div>
+             <?php } ?>
         </div>
     
 </div>
