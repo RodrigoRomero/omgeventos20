@@ -26,11 +26,11 @@ div.divider {
 		 -o-transform: translate(-50%,-50%);
 			transform: translate(-50%,-50%);
 
-}
-
+}	
+    
 #home .image-caption p {
 	font-family: 'Asap', 'sans-serif';
-	font-size: 25px;
+	font-size: 25px; 
     line-height:100%;
 	font-weight:700;
 /*	color: #d6dbd9;*/
@@ -66,12 +66,12 @@ div.divider {
 }
 
 #home .image-caption .event .venue_place {
-
+    
 }
 #home .image-caption .event .venue_date span,
 #home .image-caption .event .venue_place span {
     font-size: 35px;
-
+    
 }
 
 #home .image-caption .event .venue_date p {
@@ -87,7 +87,7 @@ div.divider {
 	font-size: 16px;
     font-weight: 100;
     color: #ffffff;
-
+   
 }
 #home .image-caption .event .venue_place p {
     font-family: 'Asap', 'sans-serif';
@@ -129,12 +129,6 @@ h1 {
     font-weight: 100;
 }
 
-.row.planes h3,
-.row.planes p,
-.row.planes .pricetable-items {
-color: #fff
-}
-
 section {
 	background:#c4c9c3;
      padding: 50px 0;
@@ -165,7 +159,7 @@ section header h3 {
 section header {
     position: relative;
     margin-bottom: 20px;
-
+    
 }
 
 section header .title_icon {
@@ -189,7 +183,7 @@ section header .title_icon {
 		-o-filter: grayscale(100%);
 		   filter: grayscale(100%);
 		   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
-		   filter: gray;
+		   filter: gray; 
 */
 	z-index:1;
 }
@@ -213,14 +207,14 @@ section header .title_icon {
 	background:#fff;
 }
 
-.btn.btn-primary.red {
+.btn.btn-primary.red {    
     background: #326a67
 }
 
 .util-row div.divider-util {
-	height: 2px;
+	height: 2px;	
 	border-top:#605f5f 1px solid;
-	border-bottom:#605f5f 1px solid;
+	border-bottom:#605f5f 1px solid;	
 	margin-top:10px;
 	margin-bottom: 20px;
 	text-align:center;
@@ -231,14 +225,14 @@ section header .title_icon {
 		display:inline-block;
 		background:#ffffff;
 		margin-top:-18px;
-		left:50%;
+		left:50%; 
         color:#605f5f;
-		width:150px;
+		width:150px; 
          margin-left: -75px;
 		text-align:center;
 		font-size:26px;
 	}
-
+    
 
 footer .copyright {
     line-height: 40px;
@@ -248,7 +242,7 @@ footer .copyright {
 footer h3 {
     color: #ffffff;
     line-height: 60px;
-}
+}    
 footer a.toTop {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
     border-top-left-radius: 9px;
@@ -265,7 +259,7 @@ footer a.toTop {
     z-index: 100;
     left: inherit
 }
-/** 1. Agenda
+/** 1. Agenda 
 **************************************************************** **/
 
 section#agenda .btn.black {
@@ -273,8 +267,8 @@ section#agenda .btn.black {
     color: #62AF66;
     font-weight: 100;
     margin-top: 0;
-
-}
+    
+} 
 /** 12. Portfolio
  **************************************************************** **/
 #portfolio .isotope-item .caption {
@@ -306,9 +300,9 @@ section#agenda .btn.black {
 
 #portfolio .isotope-item .caption i.fa {
 	background:#333;
-	padding:14px;
+	padding:14px;	
 	position:absolute;
-	width:50px;
+	width:50px; 
     height:50px;
 	margin-top:-66px;
 	margin-left:-25px;
@@ -329,20 +323,20 @@ ul.bstrap-tabs li a {
 	border-right:0 !important;
 
 }
-
-ul.bstrap-tabs>li>a,
-ul.bstrap-tabs>li.active>a,
-ul.bstrap-tabs>li.active>a:hover,
+    
+ul.bstrap-tabs>li>a,  
+ul.bstrap-tabs>li.active>a, 
+ul.bstrap-tabs>li.active>a:hover, 
 ul.bstrap-tabs>li.active>a:focus {
 	border-top:#292c28 1px solid;
-
+    
 }
 
-ul.bstrap-tabs>li>a:hover,
+ul.bstrap-tabs>li>a:hover, 
 ul.bstrap-tabs>li>a:focus,
 ul.bstrap-tabs li.active a,
 ul.bstrap-tabs li.active a:hover,
-ul.bstrap-tabs>li.active>a:hover,
+ul.bstrap-tabs>li.active>a:hover, 
 ul.bstrap-tabs>li.active>a:focus {
 	border-top:#292c28 1px solid;
 	background:#afb3ac;
@@ -353,10 +347,10 @@ ul.bstrap-tabs li.active a i {
 	color:#292c28;
 }
 
-#agenda .agenda-wrapper {
+#agenda .agenda-wrapper {  
     max-width: 100%;
     position: relative;
-
+  
 }
 
 #agenda .agenda-wrapper:after {
@@ -399,14 +393,14 @@ ul.bstrap-tabs li.active a i {
     width: 39px;
     z-index: 999;
 }
-#agenda  .agenda-wrapper .timeline-list .right,
+#agenda  .agenda-wrapper .timeline-list .right, 
 #agenda  .agenda-wrapper .timeline-list .left {
     display: inline-block;
     position: relative;
     width: 48.8%;
     vertical-align: top;
 }
-/** 07. Util Row
+/** 07. Util Row 
 	example: newsletter subscribe
  **************************************************************** **/
 section.util-row {
@@ -417,7 +411,6 @@ section.util-row {
 	padding:20px 0;
 }
 
-#oradores .oradores_titles,
 #sponsor .sponsor_titles {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -427,18 +420,17 @@ section.util-row {
 
 #sponsor .regular {
     background: #616261;
-}
+} 
 
 #sponsor .media {
     background: #000000;
 }
 
-#oradores .oradores_titles,
 #sponsor .platino {
     background: #447a47;
 }
 
-#oradores .oradores_titles h5,
+
 #sponsor h5 {
     color: #ffffff;
     text-transform: uppercase
@@ -454,29 +446,29 @@ section.util-row {
 }
 
 #bisblick .compromiso_social {
-
+    
     margin: 20px 0;
     padding: 10px;
 }
 
 #bisblick .nuestra_filosofia {
-
-
+   
+ 
 }
 
 #bisblick .nuestra_filosofia div {
-
+    
     padding: 20px;
 }
 
 #bisblick .nuestra_filosofia div h5 {
-    color: #000;
+    color: #000;    
 }
 
 #bisblick .nuestra_filosofia p {
     padding: 20px;
     font-family: 'Asap', 'sans-serif';
-    color: #000;
+    color: #000; 
     font-size:12px
 }
 
@@ -501,7 +493,7 @@ div.price-table {
 
 div.price-table .overlay {
     background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
-}
+} 
 
 div.price-table.active {
     box-shadow: 0 0 6px 0 #000000;
@@ -515,13 +507,13 @@ div.price-table.active {
 		font-size:25px;
 		line-height:25px;
 		padding:30px 0 15px 0;
-		border-bottom:#E7E7E7 2px solid;
+		border-bottom:#E7E7E7 2px solid;	
 	}
-
+    
     div.price-table h3 span {
         color: #f40303;
         font-size: 16px;
-
+        
     }
 	div.price-table p {
 		color:#000000;
@@ -541,7 +533,7 @@ div.price-table.active {
 		font-weight:300;
         line-height: normal;
 		text-transform:uppercase;
-		margin: 15px 10px;
+		margin: 15px 10px;	
 	}
     div.price-table .price_check  {
         margin-top: 20px;
@@ -551,21 +543,21 @@ div.price-table.active {
 		border-bottom:#E7E7E7 2px solid;
 		padding:8px;
         text-transform: none;
-        font-family: 'Asap', sans-serif;
+        font-family: 'Asap', sans-serif;		
 	}
 
 	div.price-table.standard {
 		background:#b4c2b4;
         color: #ffffff;
 	}
-
+    
     div.price-table.platea.premium {
 		background:#64ac67;
         color: #ffffff;
 	}
-
+    
     div.price-table.ayuda {
-		background:#553463;
+		background:#553463;	
         color: #ffffff;
     }
     div.price-table.general h3,
@@ -575,7 +567,7 @@ div.price-table.active {
     div.price-table.ayuda h3 {
         color: #ffffff;
     }
-
+    
     div.price-table.general p,
     div.price-table.platea p,
     div.price-table.standard p,
@@ -586,17 +578,17 @@ div.price-table.active {
 
 div.price-table.platea {
     background: #f39c12;
-}
+} 
 
 div.price-table.general {
     background: #f1c40f;
-}
+} 
 #registrese .conocio_opciones {
     border-top: 2px solid #292C28;
     border-bottom: 2px solid #292C28;
     padding: 10px 0;
     margin-top: 20px;
-}
+}    
 #registrese .conocio_opciones ul {
     margin: 10px 0;
 }
@@ -612,26 +604,26 @@ div.price-table.general {
     margin: 0 auto;
 }
 
-.help-inline {
+.help-inline {   
     color: #A94442;
     font-family: 'Asap',sans-serif;
     font-weight: 100;
     font-size: 12px;
 }
-
+    
 @media (min-width: 240px) and (max-width: 767px) {
     #agenda .agenda-wrapper:after {
         background: none;
     }
-
-    #agenda .agenda-wrapper .timeline-list .right:after,
+    
+    #agenda .agenda-wrapper .timeline-list .right:after, 
     #agenda .agenda-wrapper .timeline-list .left:after {
         height: 0;
         width: 0;
         background: none;
     }
 
-    #agenda  .agenda-wrapper .timeline-list .right,
+    #agenda  .agenda-wrapper .timeline-list .right, 
     #agenda  .agenda-wrapper .timeline-list .left {
         display: block;
         position: relative;
@@ -644,7 +636,7 @@ div.price-table.general {
 @media only screen and (max-width: 479px) {
     #home .image-caption p {
     	font-family: 'Asap', 'sans-serif';
-    	font-size: 14px;
+    	font-size: 14px; 
         line-height:100%;
     	font-weight:700;
     	color: #d6dbd9;
@@ -661,7 +653,7 @@ div.price-table.general {
     	text-shadow:none;
     	color:#d6dbd9;
         display:block;
-    }
+    }    
 }
 
 
@@ -682,7 +674,7 @@ div.price-table.general {
 	.skill {
 		border: none;
 		border-bottom:none;
-		width:200px;
+		width:200px; 
         height:145px;
 		text-align:center;
 		position:relative;
@@ -701,7 +693,7 @@ div.price-table.general {
         padding-top: 0;
 	}
 	.skill  h3 {
-		display:inline-block;
+		display:inline-block;		
 		color:#64AC67;
 		font-size:20px;
 		line-height:20px;
@@ -715,18 +707,18 @@ div.price-table.general {
     font-size: 50px;
     left: 0;
     margin: 10px 0;
-
+    
     position: relative;
-
+    
 	}
-
-
-
-
-
+	
+	
+	
+	
+	
 #oradores{
 	background-color: #ffffff;
-}
+}	
 
 #oradores .speaker_name h3 {
     color:#2ab7bf;

@@ -65,7 +65,7 @@ class acreditados_mod extends RR_Model {
             $order = explode("-",$this->input->post('order',true));            
             $this->db->order_by($datagrid['columns'][$order[1]]['sort'],$order[0]);
         } else {
-            $this->db->order_by('a.apellido','ASC');
+            $this->db->order_by('a.barcode','DESC');
         }
         $this->db->from($this->table.' a');
         $this->db->stop_cache();
