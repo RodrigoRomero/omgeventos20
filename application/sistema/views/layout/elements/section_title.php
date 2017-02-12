@@ -1,1 +1,0 @@
-<h2 class="section_title"><?php echo $title?></h2>
