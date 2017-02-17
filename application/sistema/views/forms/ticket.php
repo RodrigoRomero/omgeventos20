@@ -49,5 +49,10 @@ $descripcion = json_decode($tickets->descripcion);
     } ?>
     <?php if(!$tickets->agotadas) { ?>
         <span class="price_check fa fa-square-o"></span>
+        <?php 
+        $options = array(1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10);
+        $js = 'onChange="setQty($(this))" disabled';   
+        echo form_dropdown('cantidad',$options,0, $js);
+    ?>
     <?php } ?>
 </div>

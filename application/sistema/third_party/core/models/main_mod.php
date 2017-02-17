@@ -76,7 +76,7 @@ class main_mod extends RR_Model {
 
         $evento = $this->db->get_where('eventos',array('status'=>1))->row();
 
-        $categorias = $this->db->order_by('orden','ASC')->get_where('categoriaSponsors',array('status'=>1))->result();
+        $categorias = $this->db->order_by('orden','ASC')->get_where('categoriasponsors',array('status'=>1))->result();
 
         $sponsor_by_categoria = array();
 

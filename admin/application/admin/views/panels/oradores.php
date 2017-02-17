@@ -53,16 +53,15 @@ $social = json_decode($row->json_socials);
                         <?php
 
                         echo control_group('Foto Orador', upload_manager("",array("id"=>$row->id, "uploadFolder"=>"uploads/oradores/", "filter"=>'jpg', "ratio"=>'205x205')),$attr = array('id'=>'uploadGroupNo', 'help-block'=>'(Imágen JPG - 205x205)'));
-
                         
-
                         $data = array('name'=>'twitter','id'=>'twitter','placeholder'=>'Twitter del Orador', 'class'=>'', 'value'=>$social->twitter);
-
                         echo control_group('Twitter', form_input($data),$attr = array('prepend'=>'<i class="icon-twitter"></i>','append'=>'<a class="icon-question ax-modal tip-right" data-original-title="Ver ayuda" href="'.lang_url('helps/general/2').'"></a>'));
 
                         $data = array('name'=>'facebook','id'=>'facebook','placeholder'=>'Facebook del Orador', 'class'=>'', 'value'=>$social->faceboook);
-
                         echo control_group('Facebook', form_input($data),$attr = array('prepend'=>'<i class="icon-facebook"></i>','append'=>'<a class="icon-question ax-modal tip-right" data-original-title="Ver ayuda" href="'.lang_url('helps/general/2').'"></a>'));
+
+                        $data = array('name'=>'linkedin','id'=>'linkedin','placeholder'=>'Linkedin del Orador', 'class'=>'', 'value'=>$social->linkedin);
+                        echo control_group('Twitter', form_input($data),$attr = array('prepend'=>'<i class="icon-linkedin"></i>','append'=>'<a class="icon-question ax-modal tip-right" data-original-title="Ver ayuda" href="'.lang_url('helps/general/2').'"></a>'));
 
                         ?>
 

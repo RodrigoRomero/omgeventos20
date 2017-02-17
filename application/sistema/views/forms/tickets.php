@@ -5,6 +5,7 @@ echo form_open($action,$data);
 echo form_hidden('ticket_sku',0);
 echo form_hidden('ticket_ammount',0);
 echo form_hidden('ticket_name',0);
+echo form_hidden('ticket_qty',1);
 
 if($evento->payments_enabled){
     echo '<div class="row planes jPlanes ">';

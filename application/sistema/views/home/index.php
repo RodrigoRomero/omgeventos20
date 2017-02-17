@@ -7,6 +7,7 @@ $hora_inicio  = substr($fecha_inicio[1],0,-3);
 $hora_cierre  = substr($fecha_cierre[1],0,-3);
 $fecha_inicio_array = explode("-", $fecha_inicio[0]);
 $fecha_cierre_array = explode("-", $fecha_cierre[0]);
+
 ?>
 
 
@@ -31,7 +32,7 @@ $fecha_cierre_array = explode("-", $fecha_cierre[0]);
 
                         <h2 class="bigtext strtoupper nomargin"><?php echo $evento->nombre ?></h2>
                         <p><?php echo $evento->bajada ?></p>
-
+                        <p><?php echo $evento->descripcion ?></p>
                         <!--<a class="btn btn-primary white nofill popup-video" href="https://www.youtube.com/watch?v=jNgS9wMJZjY"><i class="fa fa-play"></i> Ver video </a>-->
                         <a class="btn btn-primary red scrollTo" href="#registrese">Registrese Ahora</a>
 

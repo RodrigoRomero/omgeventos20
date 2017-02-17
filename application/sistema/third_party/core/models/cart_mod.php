@@ -31,18 +31,19 @@ class cart_mod extends RR_Model {
 
 
 
-    public function add($sku='',$name='',$price='',$modal=true){
+    public function add($sku='',$name='',$price='',$qty='', $modal=true){
         $this->cart->destroy();      
         $sku   = ($sku) ? $sku : filter_input(INPUT_POST,'ticket_sku');
         $name  = ($name) ? $name : filter_input(INPUT_POST,'ticket_name');
-        $price = ($price) ? $price : filter_input(INPUT_POST,'ticket_ammount');      
+        $price = ($price) ? $price : filter_input(INPUT_POST,'ticket_ammount');    
+        $qty   =  ($qty) ? $qty : filter_input(INPUT_POST,'ticket_qty');    
         $ticket = $this->validateSKU($sku);
         
         if($ticket->precio_regular == $price || $ticket->precio_oferta == $price) {
             $options = (!empty($ticket->descripcion)) ? array('extras'=>$ticket->descripcion, 'ticket_id'=>$ticket->id) : array('ticket_id'=>$ticket->id); 
             $data = array(
                    'id'      => $sku,
-                   'qty'     => 1,
+                   'qty'     => $qty,
                    'price'   => (int)$price,
                    'name'    => $name, 
                    'options' => $options

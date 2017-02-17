@@ -1,7 +1,6 @@
 <?php
 $data = array ('id'=>'agendaForm', 'class'=>'form');
 echo form_open($action,$data);
-$social = json_decode($row->json_socials);
 ?>
 <div class="row-fluid">  
     <div class="box span12">
@@ -18,7 +17,7 @@ $social = json_decode($row->json_socials);
                     $data = array('name'=>'code','id'=>'code','placeholder'=>'Código', 'data-maxlength'=>'10','class'=>'required limited input-xlarge', 'value'=>$row->code, 'readonly'=>true);
                     echo control_group($data['placeholder'], form_input($data),$attr = array());
                 } else {
-                    $data = array('name'=>'code','id'=>'code','placeholder'=>'Código', 'data-maxlength'=>'10','class'=>'required limited input-xlarge', 'value'=>random_string('alnum',10), 'readonly'=>true);
+                    $data = array('name'=>'code','id'=>'code','placeholder'=>'Código', 'data-maxlength'=>'10','class'=>'required limited input-xlarge', 'value'=>random_string('alnum',10), );
                     echo control_group($data['placeholder'], form_input($data),$attr = array());
                 }
                 
