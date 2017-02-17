@@ -52,7 +52,18 @@ $config = array('Contacto' => array(
                                          ),
                                          
                                     ),
-                 
+                 'AuthLogin' => array(
+                                    array(
+                                            'field' => 'user',
+                                            'label' => 'Usuario',
+                                            'rules' => 'trim|required|valid_email|xss_clean'
+                                         ),
+                                    array(
+                                            'field' => 'password',
+                                            'label' => 'Contraseña',
+                                            'rules' => 'trim|required|xss_clean|md5'
+                                         ),
+                                    ),
                 
                );
                

@@ -13,7 +13,8 @@ class Auth extends RR_Controller {
 
 	public function index(){}
     
-    public function login(){        
+    public function login(){    
+         $this->layout = 'multi_page';    
          $module =	$this->view('auth/login');
          $this->_show($module);
     }
