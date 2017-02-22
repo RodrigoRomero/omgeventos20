@@ -3,12 +3,7 @@ class Auth extends RR_Controller {
     
     public function Auth(){        
         parent::__construct();
-        $this->layout = 'login';
-        $this->css_view = array('unicorn.login');        
-        $this->widget_view = array('validate'=>array('js'=>array('jquery.validate','messages_es')));
         $this->load->model("auth_mod","Auth");
-        //$this->output->enable_profiler(TRUE);
-       // 
     }
 
 	public function index(){}

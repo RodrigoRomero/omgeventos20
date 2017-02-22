@@ -140,22 +140,13 @@ class Auth_mod extends RR_Model {
 
     public function do_logout(){
 
-        $this->Log->setLog(2);
-
         foreach($this->session->userdata as $key=>$value){
-
             $name = explode("usr_", $key);
-
             if (count($name)==2){
-
                 $this->session->unset_userdata($key);
-
             }
-
        }
-
     }
-
     
 
     private function _set_auth_prefs(){

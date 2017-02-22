@@ -8,7 +8,6 @@ default.html
 omgschema.sql
 rr_db.php
 admin/rr_db.php
-acreditaciones/rr_db.php
 uploads/*
 !uploads/*/
 uploads/barcodes/*
@@ -18,3 +17,4 @@ uploads/slider/*
 uploads/sponsors/*
 old_upd/*
 omgeventos20
+acreditaciones/rr_db.php

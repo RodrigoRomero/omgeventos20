@@ -33,14 +33,28 @@ class cart_mod extends RR_Model {
 
     public function add($sku='',$name='',$price='',$qty='', $modal=true){
         $this->cart->destroy();      
+        $options = [];
         $sku   = ($sku) ? $sku : filter_input(INPUT_POST,'ticket_sku');
         $name  = ($name) ? $name : filter_input(INPUT_POST,'ticket_name');
         $price = ($price) ? $price : filter_input(INPUT_POST,'ticket_ammount');    
-        $qty   =  ($qty) ? $qty : filter_input(INPUT_POST,'ticket_qty');    
+        $qty   =  ($qty) ? $qty : filter_input(INPUT_POST,'ticket_qty');   
         $ticket = $this->validateSKU($sku);
+
+        if($ticket->min_qty == 0  && $ticket->max_qty == 0 ){
+            $options['nominar'] = $qty;
+        } elseif($ticket->min_qty>0 && $tickets->max_qty == 0 ) {
+            $options['nominar'] = $qty;
+            $qty = $qty/$ticket->min_qty;
+
+        } elseif($ticket->min_qty>0 && $ticket->max_qty > 0 ) {
+              $options['nominar'] = $qty;
+        }
+        
         
         if($ticket->precio_regular == $price || $ticket->precio_oferta == $price) {
-            $options = (!empty($ticket->descripcion)) ? array('extras'=>$ticket->descripcion, 'ticket_id'=>$ticket->id) : array('ticket_id'=>$ticket->id); 
+            $options['extras'] = (!empty($ticket->descripcion)) ? $ticket->descripcion : '';
+            $options['ticket_id'] = (!empty($ticket->descripcion)) ? $ticket->ticket_id : '';
+
             $data = array(
                    'id'      => $sku,
                    'qty'     => $qty,
@@ -48,6 +62,8 @@ class cart_mod extends RR_Model {
                    'name'    => $name, 
                    'options' => $options
                 );
+
+            
             $cart_product_id = $this->cart->insert($data);       
 
             if($cart_product_id){
