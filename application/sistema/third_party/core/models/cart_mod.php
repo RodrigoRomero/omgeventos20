@@ -40,9 +40,10 @@ class cart_mod extends RR_Model {
         $qty   =  ($qty) ? $qty : filter_input(INPUT_POST,'ticket_qty');   
         $ticket = $this->validateSKU($sku);
 
+
         if($ticket->min_qty == 0  && $ticket->max_qty == 0 ){
             $options['nominar'] = $qty;
-        } elseif($ticket->min_qty>0 && $tickets->max_qty == 0 ) {
+        } elseif($ticket->min_qty>0 && $ticket->max_qty == 0 ) {
             $options['nominar'] = $qty;
             $qty = $qty/$ticket->min_qty;
 
@@ -63,7 +64,7 @@ class cart_mod extends RR_Model {
                    'options' => $options
                 );
 
-            
+          
             $cart_product_id = $this->cart->insert($data);       
 
             if($cart_product_id){

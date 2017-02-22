@@ -19,8 +19,12 @@ if($tickets->min_qty == 0  && $tickets->max_qty == 0 ){
      $end = $tickets->max_qty;
 }
 
-$options = array_combine(range($start, $end, $step),range($start, $end, $step)) ;
+$options = array_combine(range($start, $end, $step),range($start, $end, $step));
 
+if(!array_key_exists ( 0 , $options )){
+    $options[0] = 0;
+}
+ksort($options);
 ?> 
 
 
