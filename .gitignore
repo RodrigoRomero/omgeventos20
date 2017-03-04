@@ -18,3 +18,4 @@ uploads/sponsors/*
 old_upd/*
 omgeventos20
 acreditaciones/rr_db.php
+application/sistema/config/email.php

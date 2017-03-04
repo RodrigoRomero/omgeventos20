@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-7">
                 <?php
-                $data = array('name'=>'acreditado_email['.$position.']','id'=>'frm_acreditado_email','placeholder'=>'Correo electrónico *', 'class'=>'required email', 'type'=>'email', 'tabindex'=>7, 'value'=>$user_data->email);
+                $data = array('name'=>'acreditado_email['.$position.']','id'=>'frm_acreditado_email','placeholder'=>'Correo electrónico *', 'class'=>'required email', 'type'=>'email', 'value'=>'');
                 echo form_input($data);
                 ?>
             </div>

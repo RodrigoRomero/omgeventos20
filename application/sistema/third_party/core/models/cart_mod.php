@@ -32,7 +32,7 @@ class cart_mod extends RR_Model {
 
 
     public function add($sku='',$name='',$price='',$qty='', $modal=true){
-        $this->cart->destroy();      
+        
         $options = [];
         $sku   = ($sku) ? $sku : filter_input(INPUT_POST,'ticket_sku');
         $name  = ($name) ? $name : filter_input(INPUT_POST,'ticket_name');
@@ -54,7 +54,7 @@ class cart_mod extends RR_Model {
         
         if($ticket->precio_regular == $price || $ticket->precio_oferta == $price) {
             $options['extras'] = (!empty($ticket->descripcion)) ? $ticket->descripcion : '';
-            $options['ticket_id'] = (!empty($ticket->descripcion)) ? $ticket->ticket_id : '';
+            $options['ticket_id'] = (!empty($ticket->descripcion)) ? $ticket->id : '';
 
             $data = array(
                    'id'      => $sku,
@@ -268,13 +268,16 @@ class cart_mod extends RR_Model {
     
 
     public function getOrderById(){
-        $this->db->select('a.id, a.nombre, a.apellido, a.email, a.medio_pago, a.fa, p.pago_status, a.status', false)
-                         ->from('acreditados a')
-                         ->where('a.id', $this->session->userdata('cart_order'))
-                         ->where('a.evento_id', $this->evento_id)
-                         ->join('pagos p', 'p.acreditado_id = a.id','LEFT');               
-        $user = $this->db->get()->row();        
-        return $user;       
+
+        $this->db->select('o.*, p.*, c.*', false)
+                 ->from('orders o')
+                 ->where('o.id', $this->session->userdata('cart_order'))
+                 ->join('pagos p', 'p.order_id = o.id','INNER')          
+                 ->join('customers c', 'c.id = o.customer_id','INNER');               
+        $order = $this->db->get()->row();        
+
+    
+        return array('order'=>$order);
     }
 
     private function validateSKU($sku){

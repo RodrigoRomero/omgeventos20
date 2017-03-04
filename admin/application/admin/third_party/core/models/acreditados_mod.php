@@ -37,13 +37,17 @@ class acreditados_mod extends RR_Model {
         $datagrid["columns"][] = array("title" => "Nombre", "field" => "nombre", 'sort'=>'a.nombre');        
         $datagrid["columns"][] = array("title" => "Email", "field" => "email", 'sort'=>'a.email');
         $datagrid["columns"][] = array("title" => "Pago", "field" => "mp_status", 'sort'=>'p.status');        
-        $datagrid["columns"][] = array("title" => "Status", "field" => "status", 'format'=>'icon-activo');        
+        $datagrid["columns"][] = array("title" => "Status", "field" => "status", 'format'=>'icon-activo');    
+
+
         #CONDICIONES & CACHE DE CONDICIONES     
         $this->db->start_cache();   
         $this->db->select('a.id, a.nombre, a.apellido, a.email, p.status mp_status, a.status', false);   
         $this->db->where('a.status >=',0);        
         $this->db->where('a.evento_id',$this->evento_id);
-        $this->db->join('pagos p', 'p.acreditado_id = a.id','LEFT');
+        $this->db->join('customers c', 'c.id = a.customer_id','INNER');
+        $this->db->join('orders o', 'o.customer_id = c.id AND a.order_id = o.id','INNER');
+        $this->db->join('pagos p', 'p.order_id = o.id','INNER');
         if(isset($_POST['search']) && !empty($_POST['search'])) {
             $like_arr = array('a.nombre', 'a.apellido', 'a.email', 'p.status');            
             foreach($like_arr as  $l){
