@@ -18,15 +18,13 @@ class Dashboard extends RR_Controller {
                       'total_registros'                     => $this->Dashboard->getTotal(),
                       'total_registros_activos'             => $this->Dashboard->getTotalActive(),
                       'total_checkins'                      => $this->Dashboard->getTotalActiveCheckins(),
-
-                      //'total_by_tipo'                       => $this->Dashboard->getTotalByTipo(),    
-                      //'total_by_medio_pago'                 => $this->Dashboard->getTotalByMedioPago(),
-                      //'total_facturacion'                   => $this->Dashboard->getFacturacionTotalStatus(),
-                      //'total_facturacion_pendiente_medio'   => $this->Dashboard->getFacturacionPendienteByMedio(),
-                      //'total_by_medio_pago_iae'             => $this->Dashboard->getTotalByMedioPagoIAE(),
-                      //'total_by_ticket'                     => $this->Dashboard->getTotalByTicket(),
-                      //'total_checkins_by_tipo'              => $this->Dashboard->getTotalCheckInByTipo(),
-                     // 'cupons_stats'                        => $this->Dashboard->cuponsStats()
+                      'total_by_medio_pago'                 => $this->Dashboard->getTotalByMedioPago(),
+                      'total_facturacion'                   => $this->Dashboard->getFacturacionTotalStatus(),
+                      'total_facturacion_pendiente_medio'   => $this->Dashboard->getFacturacionPendienteByMedio(),
+                      'cupons_stats'                        => $this->Dashboard->cuponsStats(),
+                      'total_by_ticket'                     => $this->Dashboard->getTotalByTicket(),
+                      'total_checkins_by_tipo'              => $this->Dashboard->getTotalCheckInByTipo(),
+                      'average_checkin'                     => $this->Dashboard->avgCheckIn(),
                     );
        $module =	$this->view('dashboard/index', $data);
        $this->_show($module);
@@ -37,19 +35,19 @@ class Dashboard extends RR_Controller {
        echo json_encode($data);
     }
     public function getInscriptosPlanesPie(){
-       # $data = $this->Dashboard->getInscriptosPlanesPie();
-       # echo json_encode($data);
+       $data = $this->Dashboard->getInscriptosPlanesPie();
+       echo json_encode($data);
     }
     
     
     public function getBarsByTicket(){
-       # $data = $this->Dashboard->getBarsByTicket();
-       # echo json_encode($data);
+       $data = $this->Dashboard->getBarsByTicket();
+       echo json_encode($data);
     }
     
     public function getInscriptosPagosPie(){
-        #$data = $this->Dashboard->getInscriptosPagosPie();    
-        #echo json_encode($data);
+        $data = $this->Dashboard->getInscriptosPagosPie();    
+        echo json_encode($data);
     }
     private function _show($module){        
         echo $this->show_main($module);
