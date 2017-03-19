@@ -181,11 +181,13 @@ class cart_mod extends RR_Model {
     }
 
     public function restoreCart($security){
-        $user = $this->db->select('a.*, p.status payment_status', false)
-                         ->where('a.status =',1)
-                         ->where('a.salt =',$security)
-                         ->join('pagos p', 'p.acreditado_id = a.id','LEFT')
-                         ->from('acreditados a')
+
+
+        $user = $this->db->select('o.*, p.status payment_status', false)
+                         ->where('o.status =',1)
+                         ->where('o.salt =',$security)
+                         ->join('pagos p', 'p.order_id = o.id','LEFT')
+                         ->from('orders o')
                          ->get();
         $values = $user->row();    
 

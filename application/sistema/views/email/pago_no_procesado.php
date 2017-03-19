@@ -39,7 +39,7 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br/>
             Usted se ha pre-inscripto para participar del evento <?php echo $evento->nombre ?>.<br /> 
             Confirmando su  registro mediante el pago, podemos confirmar la inscripción y asegurarle la entrada al auditorio principal.</p> 
-            <a href="<?php echo lang_url('cart/checkout/'.$user_info->salt) ?>" style="<?php echo $btn ?>">Realizar Pago</a><br/>
+            <a href="<?php echo lang_url('cart/checkout/'.$order_info->salt) ?>" style="<?php echo $btn ?>">Realizar Pago</a><br/>
             <p style="<?php echo $p ?>">Muchas gracias por su interés en participar del evento</p>
         </td>
     </tr>

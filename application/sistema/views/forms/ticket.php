@@ -36,13 +36,7 @@ ksort($options);
  data-name="<?php echo $tickets->nombre ?>"
  data-sku="<?php echo $tickets->sku ?>"  
 >
-    <td>
-        <?php
-        if(!$tickets->agotadas) {
-            echo '<span class="price_check fa fa-square-o"></span>';
-        }
-        ?>
-    </td>
+    
     <td>
     <?php 
         echo '<h3>'.$tickets->nombre.'</h3>';

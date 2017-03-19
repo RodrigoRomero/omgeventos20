@@ -9,7 +9,7 @@ echo form_hidden('ticket_qty',1);
 
 if($evento->payments_enabled){
     echo '<div class="row planes jPlanes ">';
-		echo  '<table class="table table-condensed"><tr><td></td><td>Tipo de Entrada</td><td>Precio</td><td>Cantidad</td></tr>';
+		echo  '<table class="table table-condensed"><tr><td>Tipo de Entrada</td><td>Precio</td><td>Cantidad</td></tr>';
         foreach($planes as $plan){
             echo $this->view('forms/ticket', array('tickets'=>$plan));
         }
