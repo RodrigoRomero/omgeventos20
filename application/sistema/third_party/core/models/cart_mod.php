@@ -191,76 +191,37 @@ class cart_mod extends RR_Model {
                          ->get();
         $values = $user->row();    
 
-        if($values->tipo_usuario==1) {
-            switch($values->payment_status){
-                case 'approved':
-                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago ya se encuentra acreditado'));                
-                    break;
-                
-                case 'pending':
-                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisi�n'));
-                    break;          
-
-                case 'free':
-                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Por ser ex alumno IAE, te encuentras excento de realizar pagos'));                    
-                    break;
-                
-                default:
-                    $this->cart->destroy();
-                    #ABRO EL CART
-                    $cart = json_decode($values->full_cart);
-                   
-                    #GUARDO EL SALT USUARIO                   
-                    $this->session->set_userdata('cart_salt',$security);
-                    $this->session->set_userdata('cart_cupon',$values->discount_code);
-                    $this->session->set_userdata('cart_medio_pago',$values->medio_pago);
-                    
-                    foreach ($cart as $key => $row) {
-                        unset($row->rowid);
-                        $this->cart->insert(json_decode(json_encode($row),true));
-                    }
-                    if($this->cart->contents()>0){
-                       return true;
-                    }
-                    die;
-
-                    break;
-
-            }
-
+        switch($values->payment_status){
+            case 'approved':
+                $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago ya se encuentra acreditado'));                
+                break;
+           
+            case 'pending':
+                $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisi�n'));
+                break;
             
-
-        } else {
-            switch($values->payment_status){
-                case 'approved':
-                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago ya se encuentra acreditado'));                
-                    break;
+            default:
+                $this->cart->destroy();
+                #ABRO EL CART
+                $cart = json_decode($values->full_cart);
                
-                case 'pending':
-                    $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisi�n'));
-                    break;
+                #GUARDO EL SALT USUARIO                   
+                $this->session->set_userdata('cart_id',$values->id);
+                $this->session->set_userdata('cart_salt',$security);
+                $this->session->set_userdata('cart_cupon',$values->discount_code);
                 
-                default:
-                    $this->cart->destroy();
-                    #ABRO EL CART
-                    $cart = json_decode($values->full_cart);
-                   
-                    #GUARDO EL SALT USUARIO                   
-                    $this->session->set_userdata('cart_salt',$security);
-                    $this->session->set_userdata('cart_cupon',$values->discount_code);
-                    
-                    foreach ($cart as $key => $row) {
-                        unset($row->rowid);
-                        $this->cart->insert(json_decode(json_encode($row),true));
-                    }
-                    if($this->cart->contents()>0){
-                       return true;
-                    }
-                    break;
-
-            }
+                foreach ($cart as $key => $row) {
+                    unset($row->rowid);
+                    $this->cart->insert(json_decode(json_encode($row),true));
+                }
+                if($this->cart->contents()>0){
+                   return true;
+                }
+                break;
 
         }
+
+        
 
         return array('payment_status'=>$values->payment_status, 'module'=>$module);
 
