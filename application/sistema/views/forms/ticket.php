@@ -85,7 +85,7 @@ ksort($options);
     <td>
     <?php 
     if(!$tickets->agotadas) {
-        $js = 'onChange="setQty($(this))" disabled class="form-control input-lg"';   
+        $js = 'onChange="setQty($(this))"  class="form-control input-lg" data-sku="'.$tickets->sku.'"';   
         echo form_dropdown('cantidad',$options, 0,  $js);
     }
     ?>
