@@ -5,7 +5,12 @@
 	    </div>
 	    <div class="col-md-7">
 	        <?php
-	        $data = array('name'=>'acreditado_nombre['.$position.']','id'=>'frm_acreditado_nombre','placeholder'=>lang('nombre').'*', 'class'=>'required', 'value'=>"");
+            $p = $position-1;
+            $value = isset($nominados[$p]->nombre) ? $nominados[$p]->nombre : '';
+
+	        $data = array('name'=>'acreditado_nombre['.$position.']','id'=>'frm_acreditado_nombre','placeholder'=>lang('nombre').'*', 'class'=>'required', 'value'=>$value
+
+                );
 	        echo form_input($data);
 	        ?>
 	    </div>
@@ -16,7 +21,8 @@
     </div>
     <div class="col-md-7">
         <?php
-        $data = array('name'=>'acreditado_apellido['.$position.']','id'=>'frm_acreditado_apellido','placeholder'=>'Apellido*', 'class'=>'required', 'value'=>"");
+        $value = isset($nominados[$p]->apellido) ? $nominados[$p]->apellido : '';
+        $data = array('name'=>'acreditado_apellido['.$position.']','id'=>'frm_acreditado_apellido','placeholder'=>'Apellido*', 'class'=>'required', 'value'=>$value);
         echo form_input($data);
         ?>
     </div>
@@ -31,7 +37,8 @@
             </div>
             <div class="col-md-7">
                 <?php
-                $data = array('name'=>'acreditado_email['.$position.']','id'=>'frm_acreditado_email','placeholder'=>'Correo electrónico *', 'class'=>'required email', 'type'=>'email', 'value'=>'');
+                 $value = isset($nominados[$p]->email) ? $nominados[$p]->email : '';
+                $data = array('name'=>'acreditado_email['.$position.']','id'=>'frm_acreditado_email','placeholder'=>'Correo electrónico *', 'class'=>'required email', 'type'=>'email', 'value'=>$value);
                 echo form_input($data);
                 ?>
             </div>
