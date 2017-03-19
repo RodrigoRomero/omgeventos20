@@ -16,7 +16,7 @@
     </div>
     <div class="col-md-7">
         <?php
-        $data = array('name'=>'acreditado_apellido['.$position.']','id'=>'frm_acreditado_apellido','placeholder'=>lang('nombre').'*', 'class'=>'required', 'value'=>"");
+        $data = array('name'=>'acreditado_apellido['.$position.']','id'=>'frm_acreditado_apellido','placeholder'=>'Apellido*', 'class'=>'required', 'value'=>"");
         echo form_input($data);
         ?>
     </div>
