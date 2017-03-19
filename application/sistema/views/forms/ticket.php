@@ -34,7 +34,7 @@ ksort($options);
  class="price-table <?php echo (!$tickets->agotadas) ? 'pointer jPriceTkt' : 'active'; ?>"  
  data-ammount="<?php echo $data_price ?>"  
  data-name="<?php echo $tickets->nombre ?>"
- data-sku="<?php echo $tickets->sku ?>"  onclick="<?php echo (!$tickets->agotadas) ? 'setTickets($(this))' : ''; ?>"
+ data-sku="<?php echo $tickets->sku ?>"  
 >
     <td>
         <?php
