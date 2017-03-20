@@ -37,10 +37,10 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 Confirmando su  registro mediante el pago, podemos asegurar su inscripción.<br /> 
 Si desea realizar una transferencia bancaria, estos son los datos de nuestra cuenta:
 <br /><br />
-            Cta.Cte. Número: 0489393034<br />
-            Banco: Citibank<br />
+            Cta.Cte. Número: 0543/02000174/75<br />
+            Banco: ICBC - Florida 99 – Casa Central<br />
             Titular: Asociación de Marketing Directo e Interactivo de Argentina<br />
-            CBU: 0167777-10000489393034-1<br />
+            CBU: 01505436-02000000174756<br />
             CUIT: 33-63225747-9<br /><br />
             Agradecemos enviar el comprobante de transferencia a Jessica Meccia <a href="mailto:soporte@amdia.org.ar">soporte@amdia.org.ar</a> para mayor certeza<br />
             Muchas gracias.</p>
