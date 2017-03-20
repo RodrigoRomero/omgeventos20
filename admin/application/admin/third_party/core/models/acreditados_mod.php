@@ -35,21 +35,18 @@ class acreditados_mod extends RR_Model {
         $datagrid["columns"][] = array("title" => "", "field" => "", "width" => "46");        
         $datagrid["columns"][] = array("title" => "Apellido", "field" => "apellido", 'sort'=>'a.apellido');
         $datagrid["columns"][] = array("title" => "Nombre", "field" => "nombre", 'sort'=>'a.nombre');        
-        $datagrid["columns"][] = array("title" => "Email", "field" => "email", 'sort'=>'a.email');
-        $datagrid["columns"][] = array("title" => "Pago", "field" => "mp_status", 'sort'=>'p.status');        
+        $datagrid["columns"][] = array("title" => "Email", "field" => "email", 'sort'=>'a.email');   
         $datagrid["columns"][] = array("title" => "Status", "field" => "status", 'format'=>'icon-activo');    
 
 
         #CONDICIONES & CACHE DE CONDICIONES     
         $this->db->start_cache();   
-        $this->db->select('a.id, a.nombre, a.apellido, a.email, p.status mp_status, a.status', false);   
+        $this->db->select('a.id, a.nombre, a.apellido, a.email, a.status', false);   
         $this->db->where('a.status >=',0);        
         $this->db->where('a.evento_id',$this->evento_id);
-        $this->db->join('customers c', 'c.id = a.customer_id','INNER');
-        $this->db->join('orders o', 'o.customer_id = c.id AND a.order_id = o.id','INNER');
-        $this->db->join('pagos p', 'p.order_id = o.id','INNER');
+        
         if(isset($_POST['search']) && !empty($_POST['search'])) {
-            $like_arr = array('a.nombre', 'a.apellido', 'a.email', 'p.status');            
+            $like_arr = array('a.nombre', 'a.apellido', 'a.email', 'a.status');            
             foreach($like_arr as  $l){
                 $like_str .= $l." LIKE '%".$this->input->post('search',true)."%' OR ";
             }
@@ -57,13 +54,8 @@ class acreditados_mod extends RR_Model {
             $this->db->where($like_str);    
         }
         
-        if(isset($_POST['tipo_usuario']) && $_POST['tipo_usuario'] != '-1') {
-            $this->db->where('tipo_usuario',filter_input(INPUT_POST,'tipo_usuario'));    
-        }
         
-        if(isset($_POST['medio_pago']) && $_POST['medio_pago'] != '-1') {
-            $this->db->where('medio_pago',filter_input(INPUT_POST,'medio_pago'));    
-        }
+       
         
         if(isset($_POST['order']) && !empty($_POST['order'])) {
             $order = explode("-",$this->input->post('order',true));            
@@ -133,7 +125,8 @@ class acreditados_mod extends RR_Model {
         if(!empty($this->id)) {
             $this->breadcrumb->addCrumb('Editar','','current');  
             $data_panel['user_info'] = $this->db->get_where($this->table,array('id'=>$this->id))->row();
-            $data_panel['pago_info'] = $this->db->get_where('pagos',array('acreditado_id'=>$this->id))->row();           
+
+            $data_panel['empresa'] = $this->db->get_where('customers', array('id'=> $data_panel['user_info']->customer_id) )->row();
         } else {
             $this->breadcrumb->addCrumb('Nueva','','current');
         }
@@ -161,7 +154,9 @@ class acreditados_mod extends RR_Model {
     public function savea(){
         #VALIDO FORM POR PHP
          $success = 'false';
-         $config = array(array('field'   => 'payment_status', 'label'   => 'Status Pago', 'rules'   => 'trim|required|xss_clean')
+         $config = array(array('field'   => 'nombre', 'label'   => 'Nombre', 'rules'   => 'trim|required|xss_clean'),
+                        array('field'   => 'apellido', 'label'   => 'Apellido', 'rules'   => 'trim|required|xss_clean'),
+                        array('field'   => 'email', 'label'   => 'Email', 'rules'   => 'trim|required|xss_clean|valid_email'),
                       );
          $this->form_validation->set_rules($config);
          if($this->form_validation->run()==FALSE){
@@ -172,14 +167,19 @@ class acreditados_mod extends RR_Model {
             $data = array('success' => $success, 'responseType'=>$responseType, 'messages'=>$messages, 'value'=>$function);
          } else {
             $user_info = $this->db->get_where($this->table,array('id'=>$this->id))->row();
-            $pago_info = $this->db->get_where('pagos',array('acreditado_id'=>$this->id))->row();
+           
           
             $status = 0;            
             if (isset($_POST['status'])) $status = 1;
             
-            $values = array('status' => $status);
+            $values = array('nombre'   => filter_input(INPUT_POST,'nombre'),
+                            'apellido' => filter_input(INPUT_POST,'apellido'),
+                            'email' => filter_input(INPUT_POST,'email'),
+                            'status' => $status
+                            );
             
             #STATUS PAGOS
+            /*
             if($status===0) {                            
                 $pago_status['pago_status'] = '-1';
                 $pago_status['status']      = 'cancelled';
@@ -207,7 +207,7 @@ class acreditados_mod extends RR_Model {
                 $pago_status['status'] = $payment_status;
             }                
             
-            /*
+            
             
          
             #SI EL PASS CAMBIA AL DEFAULT ORSONIA LO ACTUALIZO
@@ -274,10 +274,7 @@ class acreditados_mod extends RR_Model {
                     $this->db->where('id',$this->id);
                     $query = $this->db->update($this->table, array_merge($values,$this->u));                    
                     
-                    if($query){
-                        $this->db->where('acreditado_id',$this->id);
-                        $query = $this->db->update('pagos',$pago_status);
-                    }
+                    
                     /*
                     if($query){
                         if($medio_pago != $user_info->medio_pago){
@@ -318,33 +315,19 @@ class acreditados_mod extends RR_Model {
         
         $this->db->start_cache();   
         $this->db->select('a.id, 
-                           a.empresa,
-                           a.cargo,
-                           a.nombre, 
-                           a.apellido, 
-                           a.dni,
-                           a.edad,
+                           a.nombre,
+                           a.apellido,
                            a.email,
-                           a.telefono,
-                           a.conocio,
-                           a.tipo_usuario,
-                           a.medio_pago, 
-                           a.monto,
-                           a.discount_code,
-                           a.lunch,
                            a.barcode,
-                           a.donante_mensual,
-                           a.no_asistente,
-                           a.acreditado,
+                           a.reminder,
                            a.status,
                            a.fa,
-                           t.nombre as ticket,
-                           p.status mp_status', false);   
+                           a.acreditado,
+                           c.empresa', false);   
         $this->db->where('a.evento_id',$this->evento_id);       
-        $this->db->join('pagos p', 'p.acreditado_id = a.id','LEFT');
-        $this->db->join('tickets t', 't.id = a.id_ticket','LEFT');
+        $this->db->join('customers c', 'c.id = a.customer_id','LEFT');
         if(isset($_POST['search']) && !empty($_POST['search'])) {
-            $like_arr = array('a.nombre', 'a.apellido', 'a.email', 'p.status');            
+            $like_arr = array('a.nombre', 'a.apellido', 'a.email');            
             foreach($like_arr as  $l){
                 $like_str .= $l." LIKE '%".$this->input->post('search',true)."%' OR ";
             }
@@ -352,17 +335,7 @@ class acreditados_mod extends RR_Model {
             $this->db->where($like_str);    
         }
         
-        if(isset($_POST['tipo_usuario']) && $_POST['tipo_usuario'] != '-1') {
-            $this->db->where('a.tipo_usuario',filter_input(INPUT_POST,'tipo_usuario'));    
-        }
         
-        if(isset($_POST['medio_pago']) && $_POST['medio_pago'] != '-1') {
-            $this->db->where('medio_pago',filter_input(INPUT_POST,'medio_pago'));    
-        }
-        
-        if(isset($_POST['no_asistente']) && $_POST['no_asistente'] != '-1') {
-            $this->db->where('no_asistente',filter_input(INPUT_POST,'no_asistente'));    
-        }
         
         $this->db->from($this->table.' a');
         $this->db->stop_cache();
@@ -386,25 +359,11 @@ class acreditados_mod extends RR_Model {
 							            ->setCategory("Orsonia Digital");
                                         
         $columns[] = array("title" => "Id");        
-        $columns[] = array("title" => "Tipo Usuario");
-        $columns[] = array("title" => "Código de Barras");
         $columns[] = array("title" => "Empresa");
-        $columns[] = array("title" => "Cargo");        
         $columns[] = array("title" => "Nombre");
         $columns[] = array("title" => "Apellido");
-        $columns[] = array("title" => "Edad");
-        $columns[] = array("title" => "DNI");        
         $columns[] = array("title" => "Email");
-        $columns[] = array("title" => "Teléfono");
-        $columns[] = array("title" => "Conocio");    
-        $columns[] = array("title" => "Ticket");
-        $columns[] = array("title" => "Código Descuento");
-        $columns[] = array("title" => "Medio Pago");
-        $columns[] = array("title" => "Monto");
-        $columns[] = array("title" => "Status Pago");
-        $columns[] = array("title" => "Almuerzo");
-        $columns[] = array("title" => "No Asistente");
-        $columns[] = array("title" => "Donante Mensual");        
+        $columns[] = array("title" => "Código de Barras");
         $columns[] = array("title" => "Status");
         $columns[] = array("title" => "Fecha Registro");      
         $columns[] = array("title" => "Asistió");
@@ -462,93 +421,38 @@ class acreditados_mod extends RR_Model {
             $this->phpexcel->getActiveSheet()->getStyle("A".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("B".$i, $row->tipo_usuario);
+            $this->phpexcel->getActiveSheet()->setCellValue("B".$i, $row->empresa);
             $this->phpexcel->getActiveSheet()->getStyle("B".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("B")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("C".$i, $row->barcode);
+            $this->phpexcel->getActiveSheet()->setCellValue("C".$i, $row->nombre);
             $this->phpexcel->getActiveSheet()->getStyle("C".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("C")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("D".$i, $row->empresa);
+            $this->phpexcel->getActiveSheet()->setCellValue("D".$i, $row->apellido);
             $this->phpexcel->getActiveSheet()->getStyle("D".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("D")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("E".$i, $row->cargo);
+            $this->phpexcel->getActiveSheet()->setCellValue("E".$i, $row->email);
             $this->phpexcel->getActiveSheet()->getStyle("E".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("E")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("F".$i, $row->nombre);
+            $this->phpexcel->getActiveSheet()->setCellValue("F".$i, $row->barcode);
             $this->phpexcel->getActiveSheet()->getStyle("F".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("F")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("G".$i, $row->apellido);
+            $this->phpexcel->getActiveSheet()->setCellValue("G".$i, $row->status);
             $this->phpexcel->getActiveSheet()->getStyle("G".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("G")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("H".$i, $row->edad);
+            $this->phpexcel->getActiveSheet()->setCellValue("H".$i, $row->fa);
             $this->phpexcel->getActiveSheet()->getStyle("H".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("H")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("I".$i, $row->dni);
+            $this->phpexcel->getActiveSheet()->setCellValue("I".$i, $row->acreditado);
             $this->phpexcel->getActiveSheet()->getStyle("I".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("I")->setAutoSize(true);
-        
-            $this->phpexcel->getActiveSheet()->setCellValue("J".$i, $row->email);
-            $this->phpexcel->getActiveSheet()->getStyle("J".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("J")->setAutoSize(true);
-        
-            $this->phpexcel->getActiveSheet()->setCellValue("K".$i, $row->telefono);
-            $this->phpexcel->getActiveSheet()->getStyle("K".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("K")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("L".$i, $row->conocio);
-            $this->phpexcel->getActiveSheet()->getStyle("L".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("L")->setAutoSize(true);
-        
-            $this->phpexcel->getActiveSheet()->setCellValue("M".$i, $row->ticket);
-            $this->phpexcel->getActiveSheet()->getStyle("M".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("M")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("N".$i, $row->discount_code);
-            $this->phpexcel->getActiveSheet()->getStyle("N".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("N")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("O".$i, $row->medio_pago);
-            $this->phpexcel->getActiveSheet()->getStyle("O".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("O")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("P".$i, $row->monto);
-            $this->phpexcel->getActiveSheet()->getStyle("P".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("P")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("Q".$i, $row->mp_status);
-            $this->phpexcel->getActiveSheet()->getStyle("Q".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("Q")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("R".$i, $row->lunch);
-            $this->phpexcel->getActiveSheet()->getStyle("R".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("R")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("S".$i, $row->no_asistente);
-            $this->phpexcel->getActiveSheet()->getStyle("S".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("S")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("T".$i, $row->donante_mensual);
-            $this->phpexcel->getActiveSheet()->getStyle("T".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("T")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("U".$i, $row->status);
-            $this->phpexcel->getActiveSheet()->getStyle("U".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("U")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("V".$i, $row->fa);
-            $this->phpexcel->getActiveSheet()->getStyle("V".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("V")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("W".$i, $row->acreditado);
-            $this->phpexcel->getActiveSheet()->getStyle("W".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("W")->setAutoSize(true);
+           
             $i++;
         }                   
         
