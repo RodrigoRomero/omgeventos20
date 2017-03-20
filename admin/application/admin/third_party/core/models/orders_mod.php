@@ -10,7 +10,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 class orders_mod extends RR_Model {
     var $atributo       = 'ordenes';
     var $table          = 'orders';
-    var $module         = 'ordenes';
+    var $module         = 'orders';
     var $module_title   = "Ordenes";
 
     var $id;
@@ -143,8 +143,13 @@ class orders_mod extends RR_Model {
            
         if(!empty($this->id)) {
             $this->breadcrumb->addCrumb('Editar','','current');  
-            $data_panel['user_info'] = $this->db->get_where($this->table,array('id'=>$this->id))->row();
-            $data_panel['pago_info'] = $this->db->get_where('pagos',array('acreditado_id'=>$this->id))->row();           
+
+            $data_panel['order_info'] = $this->db->get_where($this->table,array('id'=>$this->id))->row();
+            $data_panel['customer_info'] = $this->db->get_where('customers',array('id'=>$data_panel['order_info']->customer_id))->row();
+            $data_panel['ticket_info'] = $this->db->get_where('tickets',array('id'=>$data_panel['order_info']->ticket_id))->row();
+            $data_panel['pago_info'] = $this->db->get_where('pagos',array('order_id'=>$this->id))->row();           
+
+            $data_panel['acreditados_info'] = $this->db->get_where('acreditados',array('order_id'=>$this->id))->result();           
         } else {
             $this->breadcrumb->addCrumb('Nueva','','current');
         }
@@ -182,22 +187,12 @@ class orders_mod extends RR_Model {
             $messages     = validation_errors();
             $data = array('success' => $success, 'responseType'=>$responseType, 'messages'=>$messages, 'value'=>$function);
          } else {
-            $user_info = $this->db->get_where($this->table,array('id'=>$this->id))->row();
-            $pago_info = $this->db->get_where('pagos',array('acreditado_id'=>$this->id))->row();
-          
-            $status = 0;            
-            if (isset($_POST['status'])) $status = 1;
-            
-            $values = array('status' => $status);
-            
-            #STATUS PAGOS
-            if($status===0) {                            
-                $pago_status['pago_status'] = '-1';
-                $pago_status['status']      = 'cancelled';
-            }
+            $order_info = $this->db->get_where($this->table,array('id'=>$this->id))->row();
+            $pago_info = $this->db->get_where('pagos',array('order_id'=>$this->id))->row();
+
             
             $payment_status = filter_input(INPUT_POST,'payment_status');
-            if($status===1 && ($payment_status != $user_info->medio_pago) ) {
+            if($payment_status != $pago_info->status)  {
                 switch($payment_status) {
                     case 'rejected':
                     case 'refunded':
@@ -218,6 +213,7 @@ class orders_mod extends RR_Model {
                 $pago_status['status'] = $payment_status;
             }                
             
+
             /*
             
          
@@ -282,13 +278,13 @@ class orders_mod extends RR_Model {
                      */
                     break;
                 case 'update':                    
-                    $this->db->where('id',$this->id);
-                    $query = $this->db->update($this->table, array_merge($values,$this->u));                    
+                    #$this->db->where('id',$this->id);
+                    #$query = $this->db->update($this->table, array_merge($values,$this->u));                    
                     
-                    if($query){
-                        $this->db->where('acreditado_id',$this->id);
-                        $query = $this->db->update('pagos',$pago_status);
-                    }
+                  
+                    $this->db->where('order_id',$this->id);
+                    $query = $this->db->update('pagos', $pago_status);
+                    
                     /*
                     if($query){
                         if($medio_pago != $user_info->medio_pago){

@@ -15,7 +15,7 @@
 <?php foreach ($full_cart as $key => $row) { ?>
 <tr>
       <td><?php echo $row->name ?></td>
-      <td><?php echo $row->subtotal ?></td>
+      <td><?php echo $row->price ?></td>
       <td><?php echo $row->qty ?></td>
       <td><?php echo $row->subtotal ?></td>
 </tr>
