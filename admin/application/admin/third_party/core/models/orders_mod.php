@@ -73,6 +73,7 @@ class orders_mod extends RR_Model {
         }
         
         if(isset($_POST['payment_status']) && $_POST['payment_status'] != '-1') {
+            
             $this->db->where('p.status',filter_input(INPUT_POST,'payment_status'));    
         }
         

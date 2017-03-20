@@ -562,7 +562,7 @@ class eventos_mod extends RR_Model {
     }
     
     public function buscarPagos(){
-        die('asd');
+     
         $this->MP->buscarPagos();
     }
 
