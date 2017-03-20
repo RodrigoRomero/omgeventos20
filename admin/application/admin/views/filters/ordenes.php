@@ -35,7 +35,8 @@
             $opciones = array('-1'                      =>'Seleccione una opción',
                               'approved'                =>'Aprobada',
                               'in progress'             =>'En Proceso',
-                              'rejected'                =>'Rechazado'
+                              'rejected'                =>'Rechazado',
+                              'cancelled'               =>'Cancelado'
                               
                               );
             echo form_label('Status Pago');
