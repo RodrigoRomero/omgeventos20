@@ -325,34 +325,18 @@ class orders_mod extends RR_Model {
     public function exporta(){
         
         $this->db->start_cache();   
-        $this->db->select('a.id, 
-                           a.empresa,
-                           a.cargo,
-                           a.nombre, 
-                           a.apellido, 
-                           a.dni,
-                           a.edad,
-                           a.email,
-                           a.telefono,
-                           a.conocio,
-                           a.tipo_usuario,
-                           a.medio_pago, 
-                           a.monto,
-                           a.discount_code,
-                           a.lunch,
-                           a.barcode,
-                           a.donante_mensual,
-                           a.no_asistente,
-                           a.acreditado,
-                           a.status,
-                           a.fa,
-                           t.nombre as ticket,
-                           p.status mp_status', false);   
-        $this->db->where('a.evento_id',$this->evento_id);       
-        $this->db->join('pagos p', 'p.acreditado_id = a.id','LEFT');
-        $this->db->join('tickets t', 't.id = a.id_ticket','LEFT');
+        $this->db->select('o.id, o.customer_id, o.evento_id, o.ticket_id, o.item_price, o.quantity, o.total_price, o.discount_amount, o.total_discounted_price, o.discount_code, o.gateway
+                           c.empresa, c.cargo, c.nombre, c.apellido, c.fecha_nacimiento, c.dni, c.email, c.telefono, c.conocio,
+                           t.nombre ticket_nombre,
+                           p.status status_pago', false);   
+        $this->db->where('o.evento_id',$this->evento_id);       
+        $this->db->join('pagos p', 'p.order_id = o.id','INNER');
+        $this->db->join('tickets t', 't.id = o.id_ticket','INNER');
+        $this->db->join('customers c', 'c.id = o.customer_id','INNER');
+
+
         if(isset($_POST['search']) && !empty($_POST['search'])) {
-            $like_arr = array('a.nombre', 'a.apellido', 'a.email', 'p.status');            
+            $like_arr = array('c.nombre', 'c.apellido', 'c.email');            
             foreach($like_arr as  $l){
                 $like_str .= $l." LIKE '%".$this->input->post('search',true)."%' OR ";
             }
@@ -360,19 +344,17 @@ class orders_mod extends RR_Model {
             $this->db->where($like_str);    
         }
         
-        if(isset($_POST['tipo_usuario']) && $_POST['tipo_usuario'] != '-1') {
-            $this->db->where('a.tipo_usuario',filter_input(INPUT_POST,'tipo_usuario'));    
-        }
         
         if(isset($_POST['medio_pago']) && $_POST['medio_pago'] != '-1') {
-            $this->db->where('medio_pago',filter_input(INPUT_POST,'medio_pago'));    
+            $this->db->where('o.gateway',filter_input(INPUT_POST,'medio_pago'));    
         }
         
-        if(isset($_POST['no_asistente']) && $_POST['no_asistente'] != '-1') {
-            $this->db->where('no_asistente',filter_input(INPUT_POST,'no_asistente'));    
+        if(isset($_POST['payment_status']) && $_POST['payment_status'] != '-1') {
+            $this->db->where('p.status',filter_input(INPUT_POST,'payment_status'));    
         }
         
-        $this->db->from($this->table.' a');
+        
+        $this->db->from($this->table.' o');
         $this->db->stop_cache();
         $result = $this->db->get()->result();
          $this->db->flush_cache();
@@ -394,28 +376,25 @@ class orders_mod extends RR_Model {
 							            ->setCategory("Orsonia Digital");
                                         
         $columns[] = array("title" => "Id");        
-        $columns[] = array("title" => "Tipo Usuario");
-        $columns[] = array("title" => "Código de Barras");
         $columns[] = array("title" => "Empresa");
         $columns[] = array("title" => "Cargo");        
         $columns[] = array("title" => "Nombre");
         $columns[] = array("title" => "Apellido");
-        $columns[] = array("title" => "Edad");
+        $columns[] = array("title" => "Fecha Nacimiento");
         $columns[] = array("title" => "DNI");        
         $columns[] = array("title" => "Email");
         $columns[] = array("title" => "Teléfono");
         $columns[] = array("title" => "Conocio");    
+        $columns[] = array("title" => "Precio");
+        $columns[] = array("title" => "Cantidad");
+        $columns[] = array("title" => "Sub Total");
+        $columns[] = array("title" => "Descuentos");
+        $columns[] = array("title" => "Gran Total");
         $columns[] = array("title" => "Ticket");
-        $columns[] = array("title" => "Código Descuento");
         $columns[] = array("title" => "Medio Pago");
-        $columns[] = array("title" => "Monto");
+        $columns[] = array("title" => "Código Descuento");
         $columns[] = array("title" => "Status Pago");
-        $columns[] = array("title" => "Almuerzo");
-        $columns[] = array("title" => "No Asistente");
-        $columns[] = array("title" => "Donante Mensual");        
-        $columns[] = array("title" => "Status");
-        $columns[] = array("title" => "Fecha Registro");      
-        $columns[] = array("title" => "Asistió");
+        
         $nro_cols = (count($columns)-1);
         
         $this->phpexcel->getActiveSheet()->mergeCells('A1:'.$alphas[$nro_cols].'1');
@@ -465,98 +444,84 @@ class orders_mod extends RR_Model {
                                                                            );
         $i = 4;               
 
+
             foreach($result as $rowKey =>$row) {
             $this->phpexcel->getActiveSheet()->setCellValue("A".$i, $row->id);
             $this->phpexcel->getActiveSheet()->getStyle("A".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("B".$i, $row->tipo_usuario);
+            $this->phpexcel->getActiveSheet()->setCellValue("B".$i, $row->empresa);
             $this->phpexcel->getActiveSheet()->getStyle("B".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("B")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("C".$i, $row->barcode);
+            $this->phpexcel->getActiveSheet()->setCellValue("C".$i, $row->cargo);
             $this->phpexcel->getActiveSheet()->getStyle("C".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("C")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("D".$i, $row->empresa);
+            $this->phpexcel->getActiveSheet()->setCellValue("D".$i, $row->nombre);
             $this->phpexcel->getActiveSheet()->getStyle("D".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("D")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("E".$i, $row->cargo);
+            $this->phpexcel->getActiveSheet()->setCellValue("E".$i, $row->apellido);
             $this->phpexcel->getActiveSheet()->getStyle("E".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("E")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("F".$i, $row->nombre);
+            $this->phpexcel->getActiveSheet()->setCellValue("F".$i, $row->fecha_nacimiento);
             $this->phpexcel->getActiveSheet()->getStyle("F".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("F")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("G".$i, $row->apellido);
+            $this->phpexcel->getActiveSheet()->setCellValue("G".$i, $row->dni);
             $this->phpexcel->getActiveSheet()->getStyle("G".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("G")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("H".$i, $row->edad);
+            $this->phpexcel->getActiveSheet()->setCellValue("H".$i, $row->email);
             $this->phpexcel->getActiveSheet()->getStyle("H".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("H")->setAutoSize(true);
                         
-            $this->phpexcel->getActiveSheet()->setCellValue("I".$i, $row->dni);
+            $this->phpexcel->getActiveSheet()->setCellValue("I".$i, $row->telefono);
             $this->phpexcel->getActiveSheet()->getStyle("I".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("I")->setAutoSize(true);
         
-            $this->phpexcel->getActiveSheet()->setCellValue("J".$i, $row->email);
+            $this->phpexcel->getActiveSheet()->setCellValue("J".$i, $row->conocio);
             $this->phpexcel->getActiveSheet()->getStyle("J".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("J")->setAutoSize(true);
-        
-            $this->phpexcel->getActiveSheet()->setCellValue("K".$i, $row->telefono);
+            $this->phpexcel->getActiveSheet()->getColumnDimension("J")->setAutoSize(true);        
+
+            $this->phpexcel->getActiveSheet()->setCellValue("K".$i, $row->item_price);
             $this->phpexcel->getActiveSheet()->getStyle("K".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("K")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("L".$i, $row->conocio);
+            $this->phpexcel->getActiveSheet()->setCellValue("L".$i, $row->quantity);
             $this->phpexcel->getActiveSheet()->getStyle("L".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("L")->setAutoSize(true);
         
-            $this->phpexcel->getActiveSheet()->setCellValue("M".$i, $row->ticket);
+            $this->phpexcel->getActiveSheet()->setCellValue("M".$i, $row->total_price);
             $this->phpexcel->getActiveSheet()->getStyle("M".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("M")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("N".$i, $row->discount_code);
+            $this->phpexcel->getActiveSheet()->setCellValue("N".$i, $row->discount_amount);
             $this->phpexcel->getActiveSheet()->getStyle("N".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("N")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("O".$i, $row->medio_pago);
+            $this->phpexcel->getActiveSheet()->setCellValue("O".$i, $row->total_discounted_price);
             $this->phpexcel->getActiveSheet()->getStyle("O".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("O")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("P".$i, $row->monto);
+
+            $this->phpexcel->getActiveSheet()->setCellValue("P".$i, $row->ticket_nombre);
             $this->phpexcel->getActiveSheet()->getStyle("P".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("P")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("Q".$i, $row->mp_status);
+            $this->phpexcel->getActiveSheet()->setCellValue("Q".$i, $row->gateway);
             $this->phpexcel->getActiveSheet()->getStyle("Q".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("Q")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("R".$i, $row->lunch);
+            $this->phpexcel->getActiveSheet()->setCellValue("R".$i, $row->discount_code);
             $this->phpexcel->getActiveSheet()->getStyle("R".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("R")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("S".$i, $row->no_asistente);
+            $this->phpexcel->getActiveSheet()->setCellValue("S".$i, $row->status_pago);
             $this->phpexcel->getActiveSheet()->getStyle("S".$i)->getAlignment()->setWrapText(true);
             $this->phpexcel->getActiveSheet()->getColumnDimension("S")->setAutoSize(true);
             
-            $this->phpexcel->getActiveSheet()->setCellValue("T".$i, $row->donante_mensual);
-            $this->phpexcel->getActiveSheet()->getStyle("T".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("T")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("U".$i, $row->status);
-            $this->phpexcel->getActiveSheet()->getStyle("U".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("U")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("V".$i, $row->fa);
-            $this->phpexcel->getActiveSheet()->getStyle("V".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("V")->setAutoSize(true);
-            
-            $this->phpexcel->getActiveSheet()->setCellValue("W".$i, $row->acreditado);
-            $this->phpexcel->getActiveSheet()->getStyle("W".$i)->getAlignment()->setWrapText(true);
-            $this->phpexcel->getActiveSheet()->getColumnDimension("W")->setAutoSize(true);
             $i++;
         }                   
         
