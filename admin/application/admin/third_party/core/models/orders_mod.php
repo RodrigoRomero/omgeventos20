@@ -325,7 +325,7 @@ class orders_mod extends RR_Model {
     public function exporta(){
         
         $this->db->start_cache();   
-        $this->db->select('o.id, o.customer_id, o.evento_id, o.ticket_id, o.item_price, o.quantity, o.total_price, o.discount_amount, o.total_discounted_price, o.discount_code, o.gateway
+        $this->db->select('o.id, o.customer_id, o.evento_id, o.ticket_id, o.item_price, o.quantity, o.total_price, o.discount_amount, o.total_discounted_price, o.discount_code, o.gateway,
                            c.empresa, c.cargo, c.nombre, c.apellido, c.fecha_nacimiento, c.dni, c.email, c.telefono, c.conocio,
                            t.nombre ticket_nombre,
                            p.status status_pago', false);   
