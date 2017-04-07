@@ -331,7 +331,7 @@ class orders_mod extends RR_Model {
                            p.status status_pago', false);   
         $this->db->where('o.evento_id',$this->evento_id);       
         $this->db->join('pagos p', 'p.order_id = o.id','INNER');
-        $this->db->join('tickets t', 't.id = o.id_ticket','INNER');
+        $this->db->join('tickets t', 't.id = o.ticket_id','INNER');
         $this->db->join('customers c', 'c.id = o.customer_id','INNER');
 
 

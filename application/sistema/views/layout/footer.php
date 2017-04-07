@@ -17,10 +17,10 @@
 			     <!--<h3>#SMSummit</h3>-->
 			</div>
 			<div class="col-md-3 text-center">
-				<!--<a href="https://www.facebook.com/amdiaweb" class="social fa fa-facebook"></a>-->
-				<!--<a href="https://www.youtube.com/amdiaweb" class="social fa fa-youtube-square" ></a>-->
-                <a href="https://twitter.com/movilarg" class="social fa fa-twitter" ></a>
-                <a href="https://www.linkedin.com/company/asociaci%C3%B3n-m%C3%B3vil-argentina" class="social fa fa-linkedin" ></a>
+				<a href="https://www.facebook.com/amdiaweb" class="social fa fa-facebook"></a>
+				<a href="https://www.youtube.com/amdiaweb" class="social fa fa-youtube-square" ></a>
+                <a href="https://twitter.com/AMDIAweb" class="social fa fa-twitter" ></a>
+                <a href="http://bit.ly/24mQfuc" class="social fa fa-linkedin" ></a>
 				<!--<a href="#" class="social fa fa-google-plus"></a>-->
 			</div>
             <div class="col-md-5 separator newsletter-subscribe">
