@@ -16,6 +16,7 @@ class orders_mod extends RR_Model {
     var $id;
     public function __construct() {	   
         parent::__construct();
+        $this->load->model('email_mod','Email');
         $this->load->model('eventos_mod','Evento');
         $this->id   = !empty($this->params['id']) ? $this->params['id'] : '';
     }
@@ -52,10 +53,6 @@ class orders_mod extends RR_Model {
         $this->db->where('o.evento_id',$this->evento_id);
         $this->db->join('customers c', 'c.id = o.customer_id','INNER');
         $this->db->join('pagos p', 'p.order_id = o.id','INNER');
-
-
-        
-        
         
         if(isset($_POST['search']) && !empty($_POST['search'])) {
             $like_arr = array('c.nombre', 'c.apellido', 'c.email', 'c.empresa');            
@@ -65,8 +62,6 @@ class orders_mod extends RR_Model {
             $like_str = '('.substr($like_str,0,-4).')';
             $this->db->where($like_str);    
         }
-        
-       
         
         if(isset($_POST['medio_pago']) && $_POST['medio_pago'] != '-1') {
             $this->db->where('gateway',filter_input(INPUT_POST,'medio_pago'));    
@@ -135,6 +130,7 @@ class orders_mod extends RR_Model {
             return array('success'=>false, 'value'=>$grid, 'responseType' => 'inject', 'inject'=>'j-a');
         }
     }
+
     public function newa(){
         $data_panel['action']      = set_url(array('a'=>'savea'));
         $data_panel['back']        = lang_url('module/load/m/acreditados/a/listado');
@@ -157,9 +153,11 @@ class orders_mod extends RR_Model {
         $panel = $this->view("panels/".$this->atributo, $data_panel);
         return $panel;
     }
+
     public function chk_deletea(){        
        return $this->check_deletea();
     }
+
     public function deletea(){ 
         if(!empty($this->id)) {            
             $values = array('status'=>-1);
@@ -175,6 +173,7 @@ class orders_mod extends RR_Model {
         }
         return $data;
     }
+
     public function savea(){
         #VALIDO FORM POR PHP
          $success = 'false';
@@ -188,12 +187,19 @@ class orders_mod extends RR_Model {
             $messages     = validation_errors();
             $data = array('success' => $success, 'responseType'=>$responseType, 'messages'=>$messages, 'value'=>$function);
          } else {
-            $order_info = $this->db->get_where($this->table,array('id'=>$this->id))->row();
-            $pago_info = $this->db->get_where('pagos',array('order_id'=>$this->id))->row();
+            $send_mail_status_pago = false;
+            $update_pago = false;
+            $order_info    = $this->db->get_where($this->table,array('id'=>$this->id))->row();
+            $pago_info     = $this->db->get_where('pagos',array('order_id'=>$this->id))->row();
+            $customer_info = $this->db->get_where('customers', array('id'=>$order_info->customer_id))->row();
 
+
+            $evento_info = $this->Evento->getEvento();
             
             $payment_status = filter_input(INPUT_POST,'payment_status');
             if($payment_status != $pago_info->status)  {
+                $send_mail_status_pago = true;
+                $update_pago = true;
                 switch($payment_status) {
                     case 'rejected':
                     case 'refunded':
@@ -201,13 +207,17 @@ class orders_mod extends RR_Model {
                     case 'cancelled':
                     case 'in_mediation':
                     case 'sin_pago':
+                        $email_template = 'pago_rechazado';
                         $pago_status['pago_status'] = '-1';
                         break;
+
                     case 'approved':
+                        $email_template = 'pago_ok';
                         $pago_status['pago_status'] = 1;
                         break;
                     case 'in_process':    
                     case 'pending':
+                        $email_template = 'pago_en_proceso';
                         $pago_status['pago_status'] = 2;
                         break;                    
                 }
@@ -272,22 +282,32 @@ class orders_mod extends RR_Model {
             */
             switch($this->params['iu']) {
                 case 'new':
-                    /*
-                    $query = $this->db->insert($this->table, array_merge($values,$this->i));                    
-                    $this->session->set_flashdata('insert_success', 'Registro Insertado Exitosamente');
-                     * 
-                     */
                     break;
-                case 'update':                    
-                    #$this->db->where('id',$this->id);
-                    #$query = $this->db->update($this->table, array_merge($values,$this->u));                    
-                    
-                  
-                    $this->db->where('order_id',$this->id);
-                    $query = $this->db->update('pagos', $pago_status);
-                    
-                    /*
-                    if($query){
+                case 'update': 
+
+                    if($update_pago) {                  
+                        $this->db->where('order_id',$this->id);
+                        $query = $this->db->update('pagos', $pago_status);
+                        
+                        if($query){
+                            if($send_mail_status_pago){
+                                 $subject    = "Status Pago Order #".$order_info->id. ' - '.$evento_info->nombre;
+                                 $body = $this->view('email/'.$email_template, array('customer_info'=>$customer_info));
+                                 $email = $this->Email->send('email_info',$customer_info->email, $subject,$body);
+
+                                 if($email && $pago_status['pago_status'] == 1){
+                                    $acreditados = $this->db->get_where('acreditados', array('order_id'=> $order_info->id))->result();
+                                    $subject    = "Acreditación ".$evento_info->nombre;
+
+                                    foreach($acreditados as $acreditado){
+                                        $body = $this->view('email/invitacion', array('acreditado_info'=>$acreditado, 'evento'=>$evento_info));
+                                        $this->Email->send('email_info',$acreditado->email, $subject,$body);
+                                    }
+                                 }
+
+                            }
+                    }   
+                        /*
                         if($medio_pago != $user_info->medio_pago){
                             $subject    = "Cambio Medio de Pago - Argentina Visión 2020";
                             if($medio_pago == 'transferencia_bancaria')  {
@@ -309,8 +329,9 @@ class orders_mod extends RR_Model {
                             $body = $this->view('email/transferencia_bancaria_ok',array('user_info'=>$user_info,'evento'=>$this->Evento->getEvento()));
                             $this->Email->send('email_info',$user_info->email, $subject,$body);
                         }
+                        */
                     }
-                    */
+                    
                     $this->session->set_flashdata('insert_success', 'Registro Actualizado Exitosamente');  
                     break;
             }
