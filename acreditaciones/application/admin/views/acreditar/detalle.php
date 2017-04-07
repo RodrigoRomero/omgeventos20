@@ -15,7 +15,7 @@ $switchONOFF = ($acreditado->acreditado) ? 'switchON' : 'switchOFF';
                 <ul class="userInfo">
                     <li><?php echo $acreditado->nombre.' '.$acreditado->apellido?></li>
                     <li><?php echo $acreditado->email ?></li>
-                    <li>Tipo de entrada: <?php echo $acreditado->ticket_nombre ?></li>
+                    <li>Tipo de entrada: <?php echo $acreditado->ticket ?></li>
                     <li>Código de barras: <?php echo $acreditado->barcode ?></li>
                 </ul>
             </div>
