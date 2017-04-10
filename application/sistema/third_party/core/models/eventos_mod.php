@@ -14,7 +14,7 @@ class eventos_mod extends RR_Model {
     private $evento_name;
 	public function __construct() {
  		parent::__construct();        
-        #$this->load->model('email_mod','Email');
+        #
         #$this->load->model('payments_mod','MP');
         $this->_setConfig();
     }
@@ -448,21 +448,21 @@ class eventos_mod extends RR_Model {
     }
     
     public function _doReminder(){        
+        $this->load->model('email_mod','Email');
         $evento      = $this->getEvento();
         $subject     = $evento->nombre.' '.$evento->bajada;
-        $remider_one = strtotime($evento->reminder_one);
-        $remider_two = strtotime($evento->reminder_two);
-        $hoy         = strtotime(date('Y-m-d'));       
-        
-        if($hoy == $remider_one){
-            $result = $this->db->get_where('acreditados',array('status'=>1,'reminder'=>0),50)->result();            
-            #$result = $this->db->get_where('acreditados',array('status'=>1,'reminder'=>1, 'id'=>39),50)->result();
-            #ep($result);          
+        $reminder_one = strtotime($evento->reminder_one);
+        $reminder_two = strtotime($evento->reminder_two);
+        $fecha_evento = strtotime($evento->fecha_inicio);
+        $hoy          = strtotime(date('Y-m-d'));       
+       
+
+        if($hoy >= $reminder_one  && $hoy < $reminder_two  ){
+            $result = $this->db->get_where('acreditados',array('status'=>1,'reminder'=>0, 'evento_id' => $evento->id),50)->result();        
             foreach ($result as $acreditado) {            
                 
                 $body  = $this->view('email/reminder_one',array('user'=>$acreditado, 'evento'=>$evento));
                 $email = $this->Email->send('email_info', $acreditado->email, $subject, $body, array('bcc_no'=>TRUE));
-                #echo $email; 
                 if($email) {
                     $this->db->where('id',$acreditado->id);
                     $this->db->update('acreditados',array('reminder'=>1));                    
@@ -471,8 +471,8 @@ class eventos_mod extends RR_Model {
                 
             }
             
-        } elseif ($hoy == $remider_two) {
-            $result = $this->db->get_where('acreditados',array('status'=>1,'reminder'=>1),50)->result();            
+        } elseif ($hoy >= $reminder_two && $hoy < $fecha_inicio) {
+            $result = $this->db->get_where('acreditados',array('status'=>1,'reminder'=>1, 'evento_id' => $evento->id),50)->result();            
             foreach ($result as $acreditado) {                
                 $body  = $this->view('email/reminder_two',array('user'=>$acreditado, 'evento'=>$evento));
                 $email = $this->Email->send('email_info', $acreditado->email, $subject, $body, array('bcc_no'=>TRUE));
