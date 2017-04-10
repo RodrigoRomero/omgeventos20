@@ -85,34 +85,17 @@ echo form_open($action,$data);
                         $data = array('name'=>'monto','id'=>'monto','placeholder'=>'Monto', 'disabled'=>'disabled', 'class'=>'required input-xlarge', 'value'=>$order_info->total_discounted_price);
                         echo control_group('Monto', form_input($data),$attr = array());
                         */
-                        switch ($order_info->gateway) {
-                            case 'transferencia_bancaria':
-                                $value = 'Transferencia Bancaria';
-                                break;
-                            case 'mercado_pago':
-                                $value = 'Mercado Pago';
-                                break;
-                            case 'FOC':
-                                $value = 'Free of Charge';
-                                break;                          
-                        }; 
-                        $data = array('name'=>'medio_pago','id'=>'medio_pago','placeholder'=>'Medio de Pago', 'disabled'=>'disabled', 'class'=>'required input-xlarge', 'value'=> $value);
-                        echo control_group('Medio de Pago', form_input($data),$attr = array());
                         
-                        /*
-                        $data = array('mercado_pago'            => 'Mercado Pago',
-                                      'transferencia_bancaria'  => 'Transferencia Bancaria',
-                                      'pago_mis_cuentas'        => 'Pago Mis Cuentas',
-                                      '0'                       => 'No Disponible',
+                        
+                        $data = array('transferencia_bancaria'        => 'Transferencia Bancaria',
+                                      'mercado_pago'         => 'Mercado Pago',
+                                      'FOC'      => 'Free of Charge'
                                       );
-                        echo control_group('Medio de Pago', form_dropdown('medio_pago',$data, $user_info->medio_pago),$attr = array());
-                        */
-                       # $data = $ticket_options;
-                       # echo control_group('Monto', form_dropdown('monto',$data, $user_info_ticket_monto),$attr = array());
-                        /*
-                        $data = array('name'=>'monto','id'=>'monto','placeholder'=>'Monto', 'disabled'=>'disabled', 'class'=>'required input-xlarge', 'value'=>$user_info->monto);
-                        echo control_group('Monto', form_input($data),$attr = array());
-                        */
+
+                        
+                        echo control_group('Medio de Pago', form_dropdown('medio_pago',$data, $order_info->gateway),$attr = array());
+                        
+                        
                         $data = array('approved'        => 'Aprobado',
                                       'pending'         => 'Pendiente',
                                       'in_process'      => 'En Proceso', 
@@ -123,6 +106,13 @@ echo form_open($action,$data);
                                       'in_mediation'    => 'En Mediación',
                                       );
                         echo control_group('Pago Status', form_dropdown('payment_status',$data, $pago_info->status),$attr = array());
+
+                         $data = array('1'        => 'Activa',
+                                      '2'         => 'Archivada',
+                                      '-1'      => 'Cancelada'
+                                      );
+                        echo control_group('Order Status', form_dropdown('status',$data, $order_info->status),$attr = array());
+
                         ?>
                     </div>
                 </div>

@@ -177,7 +177,9 @@ class orders_mod extends RR_Model {
     public function savea(){
         #VALIDO FORM POR PHP
          $success = 'false';
-         $config = array(array('field'   => 'payment_status', 'label'   => 'Status Pago', 'rules'   => 'trim|required|xss_clean')
+         $config = array(array('field'   => 'payment_status', 'label'   => 'Status Pago', 'rules'   => 'trim|required|xss_clean'),
+                           array('field'   => 'status', 'label'   => 'Order Status', 'rules'   => 'trim|required|xss_clean'),
+                           array('field'   => 'medio_pago', 'label'   => 'Medio Pago', 'rules'   => 'trim|required|xss_clean')
                       );
          $this->form_validation->set_rules($config);
          if($this->form_validation->run()==FALSE){
@@ -189,14 +191,43 @@ class orders_mod extends RR_Model {
          } else {
             $send_mail_status_pago = false;
             $update_pago = false;
+            $update_order = false;
+            $update_gateway = false;
+            $send_invitaciones = false;
             $order_info    = $this->db->get_where($this->table,array('id'=>$this->id))->row();
             $pago_info     = $this->db->get_where('pagos',array('order_id'=>$this->id))->row();
             $customer_info = $this->db->get_where('customers', array('id'=>$order_info->customer_id))->row();
 
 
             $evento_info = $this->Evento->getEvento();
-            
+
+
+            $order_status   = filter_input(INPUT_POST,'status');
             $payment_status = filter_input(INPUT_POST,'payment_status');
+            $medio_pago     = filter_input(INPUT_POST,'medio_pago');
+
+            if($order_status != $order_info->status)  {
+                $update_order = true;
+                switch($order_status) {
+                    case '1':
+                    case 1:
+                    case '2':
+                    case 2:
+                        $order['status'] = $order_status;
+                        break;
+
+                    case '-1':    
+                    case -1:
+                        $order['status'] = $order_status;
+                        $this->_cancelAcreditados($order_info->id);
+                        $this->_cancelPayments($order_info->id);
+                        break;                    
+                }
+               
+            };
+
+            
+            
             if($payment_status != $pago_info->status)  {
                 $send_mail_status_pago = true;
                 $update_pago = true;
@@ -212,11 +243,17 @@ class orders_mod extends RR_Model {
                         break;
 
                     case 'approved':
+                        $send_invitaciones = true;
                         $email_template = 'pago_ok';
                         $pago_status['pago_status'] = 1;
                         break;
-                    case 'in_process':    
+
                     case 'pending':
+                        $email_template = 'pago_pendiente';
+                        $pago_status['pago_status'] = 2;
+                        break;
+
+                    case 'in_process':    
                         $email_template = 'pago_en_proceso';
                         $pago_status['pago_status'] = 2;
                         break;                    
@@ -225,67 +262,57 @@ class orders_mod extends RR_Model {
             }                
             
 
-            /*
-            
-         
-            #SI EL PASS CAMBIA AL DEFAULT ORSONIA LO ACTUALIZO
-            if($this->input->post('password') != md5($this->check_pass)) {
-                    $values['password']   = $this->input->post('password', true);
-            }
-            */
-            #VALIDACIÓN CAMBIO PAGOS
-            #$pago_status    = array();
-            #$medio_pago     = $this->input->post('medio_pago',true);
-            #$payment_status = $this->input->post('payment_status',true);
-            #$monto          = $this->input->post('monto',true);
-            #CAMBIO 
-            #$values = array('medio_pago' => $medio_pago,
-             #               'monto'      => $monto
-              #              );
-            /*
-            $invitacion = 0;          
-            if (isset($_POST['autorizar'])) $invitacion = 2;
-            if($invitacion==2){
-                $values = array_merge($values, array('invitacion'=>$invitacion));
-            }
-            */
-            /*
-            if($medio_pago != $user_info->medio_pago){                
+            if($medio_pago != $order_info->gateway){
+                $update_order          = true;
+                $update_pago           = true;
+                $update_gateway        = true;
+                $send_mail_status_pago = ($medio_pago == "FOC") ? false : true;
+                $send_invitaciones     = ($medio_pago == "FOC") ? true : false;
+                $email_template        = 'pago_pendiente';
+
+                $order['gateway'] = $medio_pago;
+
                 $pago_status['currency_id']        = 'ARS';
-                $pago_status['status']             = $payment_status;
                 $pago_status['collection_id']       = "";
                 $pago_status['collection_status']   = "";
                 $pago_status['preference_id']       = "";
+                $pago_status['status']              = ($medio_pago == "FOC") ? 'approved' : 'pending';
+                $pago_status['pago_status']         = ($medio_pago == "FOC") ? 1 : 2;
                 $pago_status['payment_type']        = $medio_pago;
             }
-            if($monto!=$user_info->monto){
-                $pago_status['transaction_amount']  = $monto;
-            }
-            switch($payment_status) {
-                case 'rejected':
-                case 'refunded':
-                case 'refunded':
-                case 'cancelled':
-                case 'in_mediation':
-                case 'sin_pago':
-                    $pago_status['pago_status'] = '-1';
-                    break;
-                case 'approved':
-                    $pago_status['pago_status'] = 1;
-                    break;
-                case 'in_process':    
-                case 'pending':
-                    $pago_status['pago_status'] = 2;
-                    break;                    
-            }
-            $pago_status['status'] = $payment_status;
-            */
+
+        
             switch($this->params['iu']) {
                 case 'new':
                     break;
-                case 'update': 
 
-                    if($update_pago) {                  
+                case 'update': 
+                    if($update_order){
+                        $this->db->where('id',$this->id);
+                        $query = $this->db->update('orders', array_merge($order, $this->u));
+                        if($order['status'] == '-1'){
+                            $subject    = "Cancelada - Order #".$order_info->id. ' - '.$evento_info->nombre;
+                            $body       = $this->view('email/cancel', array('user_info'=>$user_info)); 
+                            $email      = $this->Email->send('email_info',$customer_info->email, $subject,$body);
+                            $this->session->set_flashdata('insert_success', 'Orden CANCELADA Exitosamente'); 
+                        }
+                    }
+
+
+
+                    if($update_gateway){
+                         $subject    = "Cambio Medio de Pago - Order #".$order_info->id. ' - '.$evento_info->nombre;
+                         $body       = $this->view('email/'.$medio_pago, array('order_info'=>$order_info)); 
+                         $email = $this->Email->send('email_info',$customer_info->email, $subject,$body);
+                    }
+
+
+
+
+
+
+                    if($update_pago) { 
+                       
                         $this->db->where('order_id',$this->id);
                         $query = $this->db->update('pagos', $pago_status);
                         
@@ -294,44 +321,24 @@ class orders_mod extends RR_Model {
                                  $subject    = "Status Pago Order #".$order_info->id. ' - '.$evento_info->nombre;
                                  $body = $this->view('email/'.$email_template, array('customer_info'=>$customer_info));
                                  $email = $this->Email->send('email_info',$customer_info->email, $subject,$body);
-
-                                 if($email && $pago_status['pago_status'] == 1){
-                                    $acreditados = $this->db->get_where('acreditados', array('order_id'=> $order_info->id))->result();
-                                    $subject    = "Acreditación ".$evento_info->nombre;
-
-                                    foreach($acreditados as $acreditado){
-                                        $body = $this->view('email/invitacion', array('acreditado_info'=>$acreditado, 'evento'=>$evento_info));
-                                        $this->Email->send('email_info',$acreditado->email, $subject,$body);
-                                    }
-                                 }
-
                             }
-                    }   
-                        /*
-                        if($medio_pago != $user_info->medio_pago){
-                            $subject    = "Cambio Medio de Pago - Argentina Visión 2020";
-                            if($medio_pago == 'transferencia_bancaria')  {
-                                $body = $this->view('email/transferencia_bancaria',array('user_info'=>$user_info));                                
-                            } else if ($medio_pago == 'mercado_pago') {
-                                $body = $this->view('email/mercado_pago',array('user_info'=>$user_info));
-                            } else if ($medio_pago == 'pago_mis_cuentas'){
-                                $body = $this->view('email/pago_mis_cuentas',array('user_info'=>$user_info));
-                            }
-                            $this->Email->send('email_info',$user_info->email, $subject,$body);
-                        }
-                        if($user_info->medio_pago=='transferencia_bancaria' && $payment_status=='approved' && $pago_info->status != $payment_status){
-                            $subject    = "Transferencia Bancaria Acreditada - Argentina Visión 2020";
-                            $body = $this->view('email/transferencia_bancaria_ok',array('user_info'=>$user_info, 'evento'=>$this->Evento->getEvento()));
-                            $this->Email->send('email_info',$user_info->email, $subject,$body);
-                        }
-                        if($user_info->medio_pago=='pago_mis_cuentas' && $payment_status=='approved' && $pago_info->status != $payment_status){                            
-                            $subject    = "Pago Mis Cuentas Acreditado - Argentina Visión 2020";
-                            $body = $this->view('email/transferencia_bancaria_ok',array('user_info'=>$user_info,'evento'=>$this->Evento->getEvento()));
-                            $this->Email->send('email_info',$user_info->email, $subject,$body);
-                        }
-                        */
+                        }   
                     }
-                    
+
+                    if($send_invitaciones){
+                        $acreditados = $this->db->get_where('acreditados', array('order_id'=> $order_info->id))->result();
+                        $subject    = "Acreditación ".$evento_info->nombre;
+
+                        foreach($acreditados as $acreditado){
+                            $body = $this->view('email/invitacion', array('acreditado_info'=>$acreditado, 'evento'=>$evento_info));
+                            $this->Email->send('email_info',$acreditado->email, $subject,$body);
+                        }
+                    }
+
+                   
+
+
+
                     $this->session->set_flashdata('insert_success', 'Registro Actualizado Exitosamente');  
                     break;
             }
@@ -342,6 +349,20 @@ class orders_mod extends RR_Model {
             }
         }
         return $data;
+    }
+
+    public function _cancelPayments($order_id){
+        $this->db->where('order_id',$order_id);
+        $query =  $this->db->update('pagos', ['pago_status'=>'-1', 'status'=>'cancelled'] );
+        return $query;
+    }
+
+    public function _cancelAcreditados($order_id){
+        $this->db->where('order_id',$order_id);
+        $this->db->update('acreditados', array_merge(['status'=>'-1'], $this->u) );
+
+        return true;
+
     }
     public function exporta(){
         
