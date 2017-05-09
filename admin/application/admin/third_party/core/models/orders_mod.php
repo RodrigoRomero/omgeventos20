@@ -292,7 +292,7 @@ class orders_mod extends RR_Model {
                         $query = $this->db->update('orders', array_merge($order, $this->u));
                         if($order['status'] == '-1'){
                             $subject    = "Cancelada - Order #".$order_info->id. ' - '.$evento_info->nombre;
-                            $body       = $this->view('email/cancel', array('user_info'=>$user_info)); 
+                            $body       = $this->view('email/cancel', array('customer_info'=>$customer_info, 'evento'=>$evento_info)); 
                             $email      = $this->Email->send('email_info',$customer_info->email, $subject,$body);
                             $this->session->set_flashdata('insert_success', 'Orden CANCELADA Exitosamente'); 
                         }
@@ -302,7 +302,7 @@ class orders_mod extends RR_Model {
 
                     if($update_gateway){
                          $subject    = "Cambio Medio de Pago - Order #".$order_info->id. ' - '.$evento_info->nombre;
-                         $body       = $this->view('email/'.$medio_pago, array('order_info'=>$order_info)); 
+                         $body       = $this->view('email/'.$medio_pago, array('order_info'=>$order_info, 'customer_info'=>$customer_info, 'evento'=>$evento_info)); 
                          $email = $this->Email->send('email_info',$customer_info->email, $subject,$body);
                     }
 
@@ -319,7 +319,7 @@ class orders_mod extends RR_Model {
                         if($query){
                             if($send_mail_status_pago){
                                  $subject    = "Status Pago Order #".$order_info->id. ' - '.$evento_info->nombre;
-                                 $body = $this->view('email/'.$email_template, array('customer_info'=>$customer_info));
+                                 $body = $this->view('email/'.$email_template, array('customer_info'=>$customer_info, 'evento'=>$evento_info, 'order_info'=>$order_info));
                                  $email = $this->Email->send('email_info',$customer_info->email, $subject,$body);
                             }
                         }   

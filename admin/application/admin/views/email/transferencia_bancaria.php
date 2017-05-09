@@ -1,4 +1,11 @@
 <?php
+$fecha_inicio = explode(" ",$evento->fecha_inicio);
+$fecha_cierre = explode(" ",$evento->fecha_baja);
+$hora_inicio  = substr($fecha_inicio[1],0,-3);
+$hora_cierre  = substr($fecha_cierre[1],0,-3);
+$fecha_inicio_array = explode("-", $fecha_inicio[0]); 
+$fecha_cierre_array = explode("-", $fecha_cierre[0]);
+
 $table = "width:600px;
          border: none;
          border-collapse: collapse;
@@ -30,24 +37,19 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
 <table width="600" cellpadding="0" cellspacing="0" style="<?php echo $table ?>">
     <tr>
         <td colspan="3">
-            <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
-            Gracias por su inscripción al  Tercer Encuentro de Reflexión “Argentina Visión 2020” que se realizará el 18/6 en el Auditorio del IAE Business School en Pilar.<br /><br />
+            <p style="<?php echo $p ?>"><?php echo $customer->nombre.' '.$customer->apellido ?><br />
+            Usted ha solicitado el cambio de medio de pago para abonar las entradas al evento <?php echo $evento->nombre ?> a llevarse a cabo el día  <?php echo $fecha_inicio_array[2] ?> de <?php echo strtoupper(getMes($fecha_inicio_array[1])) ?>.<br />
+Si usted no solicitó el cambio de medio de pago, deje sin efecto este aviso.<br /><br />
 
-Queremos comunicarle que el evento es a total beneficio de la Fundación BisBlick que otorga becas de estudio a jóvenes de alto potencial bajos recursos económicos que desean terminar sus estudios superiores. Es por este motivo que, adquiriendo su entrada, usted está ayudando directamente a que más chicos puedan cumplir su sueño apostando a la educación como herramienta de cambio.<br /><br />
+Los datos para la transferencia bancaria son:<br />
 
-Usted puede abonar su ingreso realizando la transferencia bancaria con los datos que figuran más abajo, y enviando su comprobante de pago a mester@bisblick.org para obtener la aprobación final. <br /><br />
-
-			Nº Cuenta: 9750112-9 335-7<br />
-            Banco: Banco Galicia<br />
-            Titular: BisBlick<br />
-            CBU: 00703350-30009750112970<br />
-            CUIT: 30-71406662-1<br /><br />
-            
-Ante cualquier consulta quedo a su disposición. Desde ya le agradecemos mucho su colaboración.<br/>
-María Maestre<br/>
-Responsable administrativa<br /><br />
-
-            </p>
+            Cta.Cte. Número: 0543/02000174/75<br />
+            Banco: ICBC - Florida 99 – Casa Central<br />
+            Titular: Asociación de Marketing Directo e Interactivo de Argentina<br />
+            CBU: 01505436-02000000174756<br />
+            CUIT: 33-63225747-9<br /><br />
+            Agradecemos enviar el comprobante de transferencia a Jessica Meccia <a href="mailto:soporte@amdia.org.ar">soporte@amdia.org.ar</a> para mayor certeza<br />
+            Muchas gracias.</p>
         </td>
     </tr>
 </table>
