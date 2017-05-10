@@ -299,17 +299,11 @@ class orders_mod extends RR_Model {
                     }
 
 
-
                     if($update_gateway){
                          $subject    = "Cambio Medio de Pago - Order #".$order_info->id. ' - '.$evento_info->nombre;
                          $body       = $this->view('email/'.$medio_pago, array('order_info'=>$order_info, 'customer_info'=>$customer_info, 'evento'=>$evento_info)); 
                          $email = $this->Email->send('email_info',$customer_info->email, $subject,$body);
                     }
-
-
-
-
-
 
                     if($update_pago) { 
                        
