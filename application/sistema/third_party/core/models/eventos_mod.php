@@ -553,20 +553,17 @@ class eventos_mod extends RR_Model {
     
     public function sendInvitacion(){
        
-        $this->db->join('pagos','pagos.acreditado_id = acreditados.id','left');
-        $this->db->where('pagos.pago_status',1);
-        $user = $this->db->select('*', true)->get_where('acreditados', array('acreditados.invitacion'=>0))->result();
+          $this->load->model('email_mod','Email');
+        
+        $user = $this->db->select('*', true)->get_where('acreditados', array('acreditados.id'=>26))->result();
         $subject = "Almuerzo Networking - Argentina Visión 2020";
         ep($user);
         foreach($user as $user_info){
             $body = $this->view('email/invitacion_almuerzo', array('user_info'=>$user_info));
             $email = $this->Email->send('email_info',$user_info->email, $subject, $body);
-            if($email){
-                $this->db->where('id',$user_info->id);
-                $upd = $this->db->update('acreditados', array('invitacion'=>1));
-                
-            }
+            var_dump($email);
         }
+        
         
         
     }
