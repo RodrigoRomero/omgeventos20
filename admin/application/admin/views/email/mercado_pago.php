@@ -34,7 +34,7 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
             Usted ha solicitado el cambio de medio de pago para abonar las entradas al evento <?php echo $evento->nombre ?> a llevarse a cabo el día <?php echo $fecha_inicio_array[2] ?> de <?php echo strtoupper(getMes($fecha_inicio_array[1])) ?>.<br/>
             Si usted no solicitó el cambio de medio de pago, deje sin efecto este aviso.<br/>
             Presione en el siguiente link para acceder a pagar con Mercado Pago.</p> 
-             <a href="http://amdia.omgeventos.app/payments/latecheckout/<?php echo $order_info->salt ?>" style="<?php echo $btn ?>">Realizar Pago</a><br/>
+             <a href="http://amdia.omgeventos.app/cart/checkout/<?php echo $order_info->salt ?>" style="<?php echo $btn ?>">Realizar Pago</a><br/>
             <p style="<?php echo $p ?>">Muchas gracias</p> 
 
         </td>

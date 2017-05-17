@@ -40,7 +40,7 @@ $btn = "background: none repeat scroll 0 0 #62AF66;
         <td colspan="3">
 
             <p style="<?php echo $p ?>"><?php echo $user_info->nombre.' '.$user_info->apellido ?><br />
-              Su pago pago para abonar las entradas al evento <?php echo $evento->nombre ?> a llevarse a cabo el día <?php echo $fecha_inicio_array[2] ?> de <?php echo strtoupper(getMes($fecha_inicio_array[1])) ?> se encuentra pendiente. En caso de que ya lo ha realizado, por favor contáctese con la organización del evento para comunicar la situación.<br /><br /> Muchas gracias</p>
+              Su pago para abonar las entradas al evento <?php echo $evento->nombre ?> a llevarse a cabo el día <?php echo $fecha_inicio_array[2] ?> de <?php echo strtoupper(getMes($fecha_inicio_array[1])) ?> se encuentra pendiente. En caso de que ya lo ha realizado, por favor contáctese con la organización del evento para comunicar la situación.<br /><br /> Muchas gracias</p>
         </td>
 
     </tr>

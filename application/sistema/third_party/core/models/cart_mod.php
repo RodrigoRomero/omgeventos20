@@ -196,7 +196,8 @@ class cart_mod extends RR_Model {
                 $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago ya se encuentra acreditado'));                
                 break;
            
-            case 'pending':
+            case 'in progress':
+            case 'in_process':
                 $module = $this->view('pagos/payment_status', array('user_info'=>$values, 'message'=>'Su Pago se encuentra en proceso de revisi�n'));
                 break;
             
